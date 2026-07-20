@@ -1,0 +1,128 @@
+generated: '2026-07-20'
+method: searched
+source: >-
+  https://diaspora.github.io/api-documentation/authentication.html — the official diaspora* API
+  authentication documentation, corroborated by a live fetch of
+  https://diaspora.social/.well-known/openid-configuration (HTTP 200) and
+  openapi/diaspora-api-openapi.yml.
+docs: https://diaspora.github.io/api-documentation/authentication.html
+description: >-
+  diaspora* authenticates API clients with OpenID Connect Core 1.0. Because diaspora* is
+  decentralized, a manual application registration on a single pod is not sufficient, so the
+  project also implements OpenID Connect Discovery 1.0 and OpenID Connect Dynamic Client
+  Registration 1.0 — an application discovers a pod's endpoints and registers itself at runtime
+  against pods it has never seen before. There is no static API key and no shared client
+  credential across the network.
+
+summary:
+  types:
+  - openIdConnect
+  primary: openIdConnect
+  static_api_keys: false
+  per_pod_registration: true
+
+schemes:
+- name: openIdConnect
+  type: openIdConnect
+  openIdConnectUrl: https://diaspora.social/.well-known/openid-configuration
+  description: >-
+    OpenID Connect Core 1.0 using either the Authorization Code Flow or the Implicit Flow. The
+    openid scope is mandatory; public:read is always granted to any authorized client.
+  sources:
+  - openapi/diaspora-api-openapi.yml
+  - https://diaspora.github.io/api-documentation/authentication.html
+
+discovery:
+  supported: true
+  spec: OpenID Connect Discovery 1.0
+  well_known_path: /.well-known/openid-configuration
+  note: >-
+    Discovery is per-pod. The document returned also advertises the scopes the pod supports.
+  probed:
+    url: https://diaspora.social/.well-known/openid-configuration
+    status: 200
+    file: well-known/diaspora-openid-configuration.json
+
+dynamic_client_registration:
+  supported: true
+  spec: OpenID Connect Dynamic Client Registration 1.0
+  registration_endpoint_path: /api/openid_connect/clients
+  method: POST
+  minimal_request_fields:
+  - client_name
+  - redirect_uris
+  returns:
+  - client_id
+  - client_secret
+  rationale: >-
+    Decentralization: an application cannot be manually pre-registered on every pod in the
+    network, so it registers itself on first contact with an unknown pod.
+
+flows:
+- id: authorization_code
+  name: Authorization Code Flow
+  spec: http://openid.net/specs/openid-connect-core-1_0.html#CodeFlowAuth
+  typical_client: Native client applications
+  description: >-
+    After authorization the client receives an authorization code and exchanges it for an access
+    token at the token endpoint.
+- id: implicit
+  name: Implicit Flow
+  spec: http://openid.net/specs/openid-connect-core-1_0.html#ImplicitFlowAuth
+  typical_client: Browser-based applications
+  description: >-
+    After authorization the access token is returned directly to the redirect endpoint via the
+    user agent.
+
+endpoints:
+  note: >-
+    Paths are identical on every pod; only the host varies. The values below are the live values
+    discovered on the diaspora.social pod.
+  authorization_endpoint: https://diaspora.social/api/openid_connect/authorizations/new
+  token_endpoint: https://diaspora.social/api/openid_connect/access_tokens
+  userinfo_endpoint: https://diaspora.social/api/openid_connect/user_info
+  registration_endpoint: https://diaspora.social/api/openid_connect/clients
+  jwks_uri: https://diaspora.social/api/openid_connect/jwks.json
+
+token_endpoint_auth_methods_supported:
+- client_secret_basic
+- client_secret_post
+- private_key_jwt
+
+id_token_signing_alg_values_supported:
+- RS256
+
+subject_types_supported:
+- public
+- pairwise
+
+claims_supported:
+- sub
+- name
+- nickname
+- profile
+- picture
+
+token_transmission:
+- style: header
+  example: 'Authorization: Bearer <access token>'
+  preferred: true
+- style: query_parameter
+  example: https://example.com/api/v0/example?access_token=<access token>
+- style: form_parameter
+  content_type: application/x-www-form-urlencoded
+  example: access_token=<access token>
+
+errors:
+- status: 401
+  meaning: >-
+    No token or an invalid token was supplied. All API endpoints require authentication.
+- status: 403
+  meaning: >-
+    The client tried to access an endpoint whose OAuth scope was not part of the authorization
+    grant.
+
+related:
+  scopes: scopes/diaspora-scopes.yml
+  conventions: conventions/diaspora-conventions.yml
+  well_known: well-known/diaspora-well-known.yml
