@@ -1,0 +1,251 @@
+openapi: 3.1.0
+info:
+  title: diaspora* Aspects Streams API
+  version: '1'
+  description: 'The diaspora* API (version 1) as published in the official diaspora* API documentation. diaspora* is a decentralized social network, so there is no single API host: every pod exposes the same API under its own domain at /api/v1. Version discovery should be performed with nodeinfo before making requests. Authentication is OpenID Connect Core 1.0 with Dynamic Client Registration, because a manual application registration on a single pod is not sufficient. Only JSON is supported. NOTE: upstream marks this API as not yet stable pending the diaspora* 0.8.0.0 release.'
+  contact:
+    name: diaspora* project
+    url: https://diasporafoundation.org/
+  license:
+    name: AGPL-3.0
+    url: https://github.com/diaspora/diaspora/blob/develop/COPYRIGHT
+servers:
+- url: https://{pod}/api/v1
+  description: Any diaspora* pod running a compatible release. Discover support via nodeinfo at https://{pod}/.well-known/nodeinfo.
+  variables:
+    pod:
+      default: diaspora.social
+      description: Hostname of the diaspora* pod to talk to.
+tags:
+- name: Streams
+paths:
+  /streams/activity:
+    get:
+      operationId: getStreamsActivity
+      summary: Get activity stream
+      tags:
+      - Streams
+      description: 'Required API scope: private:read'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - private:read
+  /streams/aspects:
+    get:
+      operationId: getStreamsAspects
+      summary: Get aspect stream
+      tags:
+      - Streams
+      description: 'Required API scope: private:read'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - private:read
+  /streams/commented:
+    get:
+      operationId: getStreamsCommented
+      summary: Get commented stream
+      tags:
+      - Streams
+      description: 'Required API scope: private:read'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - private:read
+  /streams/liked:
+    get:
+      operationId: getStreamsLiked
+      summary: Get liked stream
+      tags:
+      - Streams
+      description: 'Required API scope: private:read'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - private:read
+  /streams/main:
+    get:
+      operationId: getStreamsMain
+      summary: Get the main stream
+      tags:
+      - Streams
+      description: 'Required API scope: private:read'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - private:read
+  /streams/mentions:
+    get:
+      operationId: getStreamsMentions
+      summary: Get mentions stream
+      tags:
+      - Streams
+      description: 'Required API scope: private:read'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - private:read
+  /streams/tags:
+    get:
+      operationId: getStreamsTags
+      summary: Get tag stream
+      tags:
+      - Streams
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+components:
+  schemas:
+    Error:
+      type: object
+      description: Error envelope returned by the diaspora* API.
+      properties:
+        code:
+          type: integer
+          description: HTTP status code.
+          example: 404
+        message:
+          type: string
+          description: Human readable error message.
+          example: Requested entity wasn't found
+  securitySchemes:
+    openIdConnect:
+      type: openIdConnect
+      description: OpenID Connect Core 1.0 (Authorization Code Flow or Implicit Flow) with Dynamic Client Registration 1.0. The openid scope is mandatory; public:read is always granted.
+      openIdConnectUrl: https://diaspora.social/.well-known/openid-configuration
+externalDocs:
+  description: diaspora* API documentation
+  url: https://diaspora.github.io/api-documentation/

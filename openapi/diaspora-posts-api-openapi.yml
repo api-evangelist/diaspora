@@ -1,0 +1,184 @@
+openapi: 3.1.0
+info:
+  title: diaspora* Aspects Posts API
+  version: '1'
+  description: 'The diaspora* API (version 1) as published in the official diaspora* API documentation. diaspora* is a decentralized social network, so there is no single API host: every pod exposes the same API under its own domain at /api/v1. Version discovery should be performed with nodeinfo before making requests. Authentication is OpenID Connect Core 1.0 with Dynamic Client Registration, because a manual application registration on a single pod is not sufficient. Only JSON is supported. NOTE: upstream marks this API as not yet stable pending the diaspora* 0.8.0.0 release.'
+  contact:
+    name: diaspora* project
+    url: https://diasporafoundation.org/
+  license:
+    name: AGPL-3.0
+    url: https://github.com/diaspora/diaspora/blob/develop/COPYRIGHT
+servers:
+- url: https://{pod}/api/v1
+  description: Any diaspora* pod running a compatible release. Discover support via nodeinfo at https://{pod}/.well-known/nodeinfo.
+  variables:
+    pod:
+      default: diaspora.social
+      description: Hostname of the diaspora* pod to talk to.
+tags:
+- name: Posts
+paths:
+  /posts:
+    post:
+      operationId: createPosts
+      summary: Publish a post
+      tags:
+      - Posts
+      description: 'Required API scope: public:modify or private:modify depending on the post visibility'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                aspects:
+                  type: array
+                  description: Array of aspect IDs to share this post with.
+                  items: {}
+                body:
+                  type: string
+                  description: A markdown formatted body with optional mentions.
+                location:
+                  type: object
+                  description: See above.
+                photos:
+                  type: array
+                  description: Array of GUIDs from pending photos that should be attached to a post. (See the Photos documentation)
+                  items: {}
+                poll:
+                  type: object
+                  description: See above.
+                public:
+                  type: boolean
+                  description: Whether the post should be public or not.
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - public:modify
+        - private:modify
+  /posts/{post_guid}:
+    get:
+      operationId: getPostsByPostGuid
+      summary: Get information about a single post
+      tags:
+      - Posts
+      description: 'Required API scope: public:read or private:read depending on the post visibility'
+      parameters:
+      - name: post_guid
+        in: path
+        required: true
+        description: GUID of the post.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Post with provided guid could not be found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - public:read
+        - private:read
+    delete:
+      operationId: deletePostsByPostGuid
+      summary: Delete a post
+      tags:
+      - Posts
+      description: 'Required API scope: public:modify or private:modify depending on the post visibility'
+      parameters:
+      - name: post_guid
+        in: path
+        required: true
+        description: GUID of the post.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Post with provided guid could not be found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - public:modify
+        - private:modify
+components:
+  schemas:
+    Error:
+      type: object
+      description: Error envelope returned by the diaspora* API.
+      properties:
+        code:
+          type: integer
+          description: HTTP status code.
+          example: 404
+        message:
+          type: string
+          description: Human readable error message.
+          example: Requested entity wasn't found
+  securitySchemes:
+    openIdConnect:
+      type: openIdConnect
+      description: OpenID Connect Core 1.0 (Authorization Code Flow or Implicit Flow) with Dynamic Client Registration 1.0. The openid scope is mandatory; public:read is always granted.
+      openIdConnectUrl: https://diaspora.social/.well-known/openid-configuration
+externalDocs:
+  description: diaspora* API documentation
+  url: https://diaspora.github.io/api-documentation/

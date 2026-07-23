@@ -1,0 +1,365 @@
+openapi: 3.1.0
+info:
+  title: diaspora* Aspects Users API
+  version: '1'
+  description: 'The diaspora* API (version 1) as published in the official diaspora* API documentation. diaspora* is a decentralized social network, so there is no single API host: every pod exposes the same API under its own domain at /api/v1. Version discovery should be performed with nodeinfo before making requests. Authentication is OpenID Connect Core 1.0 with Dynamic Client Registration, because a manual application registration on a single pod is not sufficient. Only JSON is supported. NOTE: upstream marks this API as not yet stable pending the diaspora* 0.8.0.0 release.'
+  contact:
+    name: diaspora* project
+    url: https://diasporafoundation.org/
+  license:
+    name: AGPL-3.0
+    url: https://github.com/diaspora/diaspora/blob/develop/COPYRIGHT
+servers:
+- url: https://{pod}/api/v1
+  description: Any diaspora* pod running a compatible release. Discover support via nodeinfo at https://{pod}/.well-known/nodeinfo.
+  variables:
+    pod:
+      default: diaspora.social
+      description: Hostname of the diaspora* pod to talk to.
+tags:
+- name: Users
+paths:
+  /user:
+    get:
+      operationId: getUser
+      summary: Get information about the authenticated user
+      tags:
+      - Users
+      description: 'Required API scope: profile'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - profile
+    patch:
+      operationId: updateUser
+      summary: Update the currently authenticated users profile
+      tags:
+      - Users
+      description: 'Required API scope: profile:modify'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                bio:
+                  type: string
+                  description: The profiles long bio text.
+                birthday:
+                  type: object
+                  description: The users birthday. ISO 8601, date only
+                gender:
+                  type: string
+                  description: The profiles gender.
+                location:
+                  type: string
+                  description: The users location.
+                name:
+                  type: string
+                  description: The new profile name.
+                nsfw:
+                  type: boolean
+                  description: Whether the profile should be marked as NSFW.
+                searchable:
+                  type: boolean
+                  description: Whether the profile should be searchable via the profile name or not.
+                show_profile_info:
+                  type: boolean
+                  description: whether the public info should be publicly visible or not.
+                tags:
+                  type: array
+                  description: Up to five tags to tag the profile with.
+                  items: {}
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '400':
+          description: Wrong value of a parameter
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - profile:modify
+  /users/{person_guid}:
+    get:
+      operationId: getUsersByPersonGuid
+      summary: Get information about a single user
+      tags:
+      - Users
+      description: 'Required API scope: public:read'
+      parameters:
+      - name: person_guid
+        in: path
+        required: true
+        description: GUID of the person.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: User with provided guid could not be found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - public:read
+  /users/{person_guid}/block:
+    post:
+      operationId: createUsersByPersonGuidBlock
+      summary: Block a user
+      tags:
+      - Users
+      description: 'Required API scope: contacts:modify.'
+      parameters:
+      - name: person_guid
+        in: path
+        required: true
+        description: GUID of the person.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: User with provided guid could not be found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Block already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - contacts:modify
+    delete:
+      operationId: deleteUsersByPersonGuidBlock
+      summary: Unblock a user
+      tags:
+      - Users
+      description: 'Required API scope: contacts:modify.'
+      parameters:
+      - name: person_guid
+        in: path
+        required: true
+        description: GUID of the person.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: User with provided guid could not be found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '410':
+          description: Block doesn't exist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - contacts:modify
+  /users/{person_guid}/photos:
+    get:
+      operationId: getUsersByPersonGuidPhotos
+      summary: Get photos by a single user
+      tags:
+      - Users
+      description: 'Required API scope: public:read'
+      parameters:
+      - name: person_guid
+        in: path
+        required: true
+        description: GUID of the person.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: User with provided guid could not be found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - public:read
+  /users/{person_guid}/posts:
+    get:
+      operationId: getUsersByPersonGuidPosts
+      summary: Get posts by a single user
+      tags:
+      - Users
+      description: 'Required API scope: public:read'
+      parameters:
+      - name: person_guid
+        in: path
+        required: true
+        description: GUID of the person.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: User with provided guid could not be found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - public:read
+components:
+  schemas:
+    Error:
+      type: object
+      description: Error envelope returned by the diaspora* API.
+      properties:
+        code:
+          type: integer
+          description: HTTP status code.
+          example: 404
+        message:
+          type: string
+          description: Human readable error message.
+          example: Requested entity wasn't found
+  securitySchemes:
+    openIdConnect:
+      type: openIdConnect
+      description: OpenID Connect Core 1.0 (Authorization Code Flow or Implicit Flow) with Dynamic Client Registration 1.0. The openid scope is mandatory; public:read is always granted.
+      openIdConnectUrl: https://diaspora.social/.well-known/openid-configuration
+externalDocs:
+  description: diaspora* API documentation
+  url: https://diaspora.github.io/api-documentation/

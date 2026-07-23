@@ -1,0 +1,322 @@
+openapi: 3.1.0
+info:
+  title: diaspora* Aspects Conversations API
+  version: '1'
+  description: 'The diaspora* API (version 1) as published in the official diaspora* API documentation. diaspora* is a decentralized social network, so there is no single API host: every pod exposes the same API under its own domain at /api/v1. Version discovery should be performed with nodeinfo before making requests. Authentication is OpenID Connect Core 1.0 with Dynamic Client Registration, because a manual application registration on a single pod is not sufficient. Only JSON is supported. NOTE: upstream marks this API as not yet stable pending the diaspora* 0.8.0.0 release.'
+  contact:
+    name: diaspora* project
+    url: https://diasporafoundation.org/
+  license:
+    name: AGPL-3.0
+    url: https://github.com/diaspora/diaspora/blob/develop/COPYRIGHT
+servers:
+- url: https://{pod}/api/v1
+  description: Any diaspora* pod running a compatible release. Discover support via nodeinfo at https://{pod}/.well-known/nodeinfo.
+  variables:
+    pod:
+      default: diaspora.social
+      description: Hostname of the diaspora* pod to talk to.
+tags:
+- name: Conversations
+paths:
+  /conversations:
+    get:
+      operationId: getConversations
+      summary: Get list of all conversations
+      tags:
+      - Conversations
+      description: 'Required API scope: conversations'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - conversations
+    post:
+      operationId: createConversations
+      summary: Create new conversation
+      tags:
+      - Conversations
+      description: 'Required API scope: conversations'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          description: Couldn't accept or process the conversation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - conversations
+  /conversations/{conversation_guid}:
+    get:
+      operationId: getConversationsByConversationGuid
+      summary: Get information about a single conversation
+      tags:
+      - Conversations
+      description: 'Required API scope: conversations'
+      parameters:
+      - name: conversation_guid
+        in: path
+        required: true
+        description: GUID of the conversation.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Conversation with provided guid could not be found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - conversations
+    delete:
+      operationId: deleteConversationsByConversationGuid
+      summary: Ignore and hide a conversation
+      tags:
+      - Conversations
+      description: 'Required API scope: conversations'
+      parameters:
+      - name: conversation_guid
+        in: path
+        required: true
+        description: GUID of the conversation.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Conversation with provided guid could not be found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - conversations
+    patch:
+      operationId: updateConversationsByConversationGuid
+      summary: Mark a conversation as read
+      tags:
+      - Conversations
+      description: 'Required API scope: conversations'
+      parameters:
+      - name: conversation_guid
+        in: path
+        required: true
+        description: GUID of the conversation.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Conversation with provided guid could not be found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - conversations
+  /conversations/{conversation_guid}/messages:
+    get:
+      operationId: getConversationsByConversationGuidMessages
+      summary: List messages in a conversation
+      tags:
+      - Conversations
+      description: 'Required API scope: conversations'
+      parameters:
+      - name: conversation_guid
+        in: path
+        required: true
+        description: GUID of the conversation.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Conversation with provided guid could not be found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - conversations
+    post:
+      operationId: createConversationsByConversationGuidMessages
+      summary: Post new message to a conversation
+      tags:
+      - Conversations
+      description: 'Required API scope: conversations'
+      parameters:
+      - name: conversation_guid
+        in: path
+        required: true
+        description: GUID of the conversation.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Conversation with provided guid could not be found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          description: Couldn't accept or process the conversation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - conversations
+components:
+  schemas:
+    Error:
+      type: object
+      description: Error envelope returned by the diaspora* API.
+      properties:
+        code:
+          type: integer
+          description: HTTP status code.
+          example: 404
+        message:
+          type: string
+          description: Human readable error message.
+          example: Requested entity wasn't found
+  securitySchemes:
+    openIdConnect:
+      type: openIdConnect
+      description: OpenID Connect Core 1.0 (Authorization Code Flow or Implicit Flow) with Dynamic Client Registration 1.0. The openid scope is mandatory; public:read is always granted.
+      openIdConnectUrl: https://diaspora.social/.well-known/openid-configuration
+externalDocs:
+  description: diaspora* API documentation
+  url: https://diaspora.github.io/api-documentation/

@@ -1,0 +1,340 @@
+openapi: 3.1.0
+info:
+  title: diaspora* Aspects Post interactions API
+  version: '1'
+  description: 'The diaspora* API (version 1) as published in the official diaspora* API documentation. diaspora* is a decentralized social network, so there is no single API host: every pod exposes the same API under its own domain at /api/v1. Version discovery should be performed with nodeinfo before making requests. Authentication is OpenID Connect Core 1.0 with Dynamic Client Registration, because a manual application registration on a single pod is not sufficient. Only JSON is supported. NOTE: upstream marks this API as not yet stable pending the diaspora* 0.8.0.0 release.'
+  contact:
+    name: diaspora* project
+    url: https://diasporafoundation.org/
+  license:
+    name: AGPL-3.0
+    url: https://github.com/diaspora/diaspora/blob/develop/COPYRIGHT
+servers:
+- url: https://{pod}/api/v1
+  description: Any diaspora* pod running a compatible release. Discover support via nodeinfo at https://{pod}/.well-known/nodeinfo.
+  variables:
+    pod:
+      default: diaspora.social
+      description: Hostname of the diaspora* pod to talk to.
+tags:
+- name: Post interactions
+paths:
+  /posts/{post_guid}/hide:
+    post:
+      operationId: createPostsByPostGuidHide
+      summary: Hide or unhide a post
+      tags:
+      - Post interactions
+      description: 'Required API scope: interactions. Read access to the post must be present too (public:read for public posts and private:read for private posts).'
+      parameters:
+      - name: post_guid
+        in: path
+        required: true
+        description: GUID of the post.
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                hide:
+                  type: boolean
+                  description: Whether the post should be hidden or not.
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Post with provided guid could not be found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Post is already hidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '410':
+          description: Post is not hidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          description: Request invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - interactions
+        - public:read
+        - private:read
+  /posts/{post_guid}/mute:
+    post:
+      operationId: createPostsByPostGuidMute
+      summary: Mute (unsubscribe from a) a post
+      tags:
+      - Post interactions
+      description: 'Required API scope: interactions. Read access to the post must be present too (public:read for public posts and private:read for private posts).'
+      parameters:
+      - name: post_guid
+        in: path
+        required: true
+        description: GUID of the post.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Post with provided guid could not be found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '410':
+          description: Was not subscribed to this post
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          description: Request invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - interactions
+        - public:read
+        - private:read
+  /posts/{post_guid}/report:
+    post:
+      operationId: createPostsByPostGuidReport
+      summary: Report a post
+      tags:
+      - Post interactions
+      description: 'Required API scope: interactions. Read access to the post must be present too (public:read for public posts and private:read for private posts).'
+      parameters:
+      - name: post_guid
+        in: path
+        required: true
+        description: GUID of the post.
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reason:
+                  type: string
+                  description: The reason behind reporting this post.
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Post with provided guid could not be found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Post has already been reported
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          description: Request invalid, such as a missing reason
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - interactions
+        - public:read
+        - private:read
+  /posts/{post_guid}/subscribe:
+    post:
+      operationId: createPostsByPostGuidSubscribe
+      summary: Subscribe to a post
+      tags:
+      - Post interactions
+      description: 'Required API scope: interactions. Read access to the post must be present too (public:read for public posts and private:read for private posts).'
+      parameters:
+      - name: post_guid
+        in: path
+        required: true
+        description: GUID of the post.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Post with provided guid could not be found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Already subscribed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          description: Request invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - interactions
+        - public:read
+        - private:read
+  /posts/{post_guid}/vote:
+    post:
+      operationId: createPostsByPostGuidVote
+      summary: Vote on poll
+      tags:
+      - Post interactions
+      parameters:
+      - name: post_guid
+        in: path
+        required: true
+        description: GUID of the post.
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                poll_answer:
+                  type: integer
+                  description: The id of the answer for which the vote should be recorded for.
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Post with provided guid could not be found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '410':
+          description: There already was a vote recorded for this poll
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          description: The request was invalid, such as a wrong id given
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+components:
+  schemas:
+    Error:
+      type: object
+      description: Error envelope returned by the diaspora* API.
+      properties:
+        code:
+          type: integer
+          description: HTTP status code.
+          example: 404
+        message:
+          type: string
+          description: Human readable error message.
+          example: Requested entity wasn't found
+  securitySchemes:
+    openIdConnect:
+      type: openIdConnect
+      description: OpenID Connect Core 1.0 (Authorization Code Flow or Implicit Flow) with Dynamic Client Registration 1.0. The openid scope is mandatory; public:read is always granted.
+      openIdConnectUrl: https://diaspora.social/.well-known/openid-configuration
+externalDocs:
+  description: diaspora* API documentation
+  url: https://diaspora.github.io/api-documentation/
