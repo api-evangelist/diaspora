@@ -1,0 +1,167 @@
+generated: '2026-07-20'
+method: searched
+source: >-
+  https://diaspora.github.io/api-documentation/ (media types, value formats, pagination, API
+  support/versioning), /authentication.html, /scopes.html and /errors.html — the cross-cutting
+  conventions that apply to every diaspora* endpoint rather than to any single operation. Derived
+  detail cross-checked against openapi/diaspora-api-openapi.yml.
+docs: https://diaspora.github.io/api-documentation/
+description: >-
+  How the diaspora* API behaves across every operation: how a client finds a server at all,
+  authentication style, media types, value formats, pagination, versioning, the error envelope,
+  and what the API notably does not provide. The defining convention is decentralization — there
+  is no single API host, so discovery precedes every other concern.
+
+base_url: https://{pod}/api/v1
+api_style: REST over HTTPS, JSON request and response bodies
+
+decentralization:
+  single_host: false
+  note: >-
+    Every diaspora* pod exposes the same API surface under its own domain. A client must be told,
+    or must discover, which pod to talk to. Endpoint paths are identical across pods; only the
+    host varies.
+  server_discovery:
+    mechanism: NodeInfo
+    well_known_path: /.well-known/nodeinfo
+    spec: http://nodeinfo.diaspora.software/
+    guidance: >-
+      Version discovery should be done using nodeinfo prior to making any requests, to ensure the
+      endpoints are available. Once a compatible diaspora* version has been detected, it is safe
+      to assume the pod will stay compatible.
+  auth_discovery:
+    mechanism: OpenID Connect Discovery 1.0
+    well_known_path: /.well-known/openid-configuration
+
+authentication:
+  scheme: OpenID Connect Core 1.0 (Authorization Code Flow or Implicit Flow)
+  client_registration: OpenID Connect Dynamic Client Registration 1.0, per pod
+  static_api_keys: false
+  token_transmission:
+  - 'Authorization: Bearer <token> request header (preferred)'
+  - access_token query parameter
+  - access_token application/x-www-form-urlencoded parameter
+  docs: https://diaspora.github.io/api-documentation/authentication.html
+  detail: authentication/diaspora-authentication.yml
+
+authorization:
+  model: OAuth 2.0 scopes
+  granularity: Each endpoint requires at least one granted scope.
+  visibility_sensitive: >-
+    For some resource types (posts, photos) the required scope depends on the visibility of the
+    data — public:read/public:modify for public data, private:read/private:modify for private
+    data. For streams, the granted scope set determines which data appears in the response.
+  insufficient_scope_status: 403
+  docs: https://diaspora.github.io/api-documentation/scopes.html
+  detail: scopes/diaspora-scopes.yml
+
+media_types:
+  supported:
+  - application/json
+  json_only: true
+  request_header: 'Accept: application/json'
+  fallback: >-
+    If setting the Accept header is not possible, appending .json to the call URL also works.
+  request_bodies: >-
+    Unless otherwise noted, bodies submitted via POST should be JSON encoded. Parameters to GET
+    routes are simple request URL variables.
+
+value_formats:
+- type: GUID
+  description: A network-wide, unique identifier.
+  example: 298962a0b8dc0133e40d406c8f31e210
+  note: >-
+    GUIDs are network-wide, not pod-local — a consequence of federation. Most resources are
+    addressed by GUID; aspects and notifications are addressed by an integer id instead.
+- type: timestamp
+  description: An ISO 8601 time and date with timezone.
+  example: '2016-02-19T02:13:41.863Z'
+
+pagination:
+  style: link-header
+  supported: partial
+  note: >-
+    Some responses, especially those with large result sets or a larger server load, respond in a
+    paginated way. Pagination is not uniform across all endpoints.
+  signaling:
+    header: Link
+    example: '<https://example.com/api/v1/example?page=2>; rel="next", <https://example.com/api/v1/example?page=42>; rel="last"'
+    rel_values:
+    - rel: first
+      meaning: Returns the first set of items in the requested set.
+    - rel: previous
+      meaning: Returns the items before the items in the currently returned set.
+    - rel: next
+      meaning: Returns the items after the items in the currently returned set.
+    - rel: last
+      meaning: Returns the last set of items in the requested set.
+  request_params:
+    page: Page selector, but see the warning below — not always an integer counter.
+    per_page: Items per page. Default 20, capped at 100 unless otherwise noted.
+  warning: >-
+    Do not try to guess the pagination URLs. Some resources, such as streams, use timestamps or
+    GUIDs instead of an increasing page counter. Follow the Link header.
+
+versioning:
+  scheme: path
+  current_version: v1
+  path_prefix: /api/v1
+  first_supported_release: 0.9.0.0
+  stability: >-
+    The API documentation still carries an upstream warning that the API is not considered stable
+    pending the 0.8.0.0 release; in practice the API shipped as officially supported in release
+    0.9.0.0, and the warning text in the documentation index has not been updated.
+  discovery: Use nodeinfo to confirm a pod runs a compatible release before making requests.
+  detail: lifecycle/diaspora-lifecycle.yml
+
+error_envelope:
+  format: custom-json
+  rfc9457: false
+  content_type: application/json
+  shape:
+    code: HTTP status code, repeated in the body as an integer.
+    message: Human readable error message.
+  example:
+    code: 404
+    message: Requested entity wasn't found
+  docs: https://diaspora.github.io/api-documentation/errors.html
+  detail: errors/diaspora-problem-types.yml
+
+idempotency:
+  supported: false
+  mechanism: none
+  note: >-
+    The diaspora* API documents no idempotency key header and no request-replay semantics. Several
+    creation endpoints instead return 409 Conflict when the entity already exists (a like, a
+    reshare, a block, a tag following, a report), and the corresponding delete endpoints return
+    410 Gone when it does not — which gives natural at-most-once behavior for those interactions
+    but is not a general idempotency mechanism.
+
+rate_limiting:
+  documented: false
+  note: >-
+    No rate-limit policy, headers or quotas are documented. Pods are independently operated, so
+    any limits are set per-podmin rather than by the project.
+
+request_tracing:
+  documented: false
+  note: No request-id or correlation-id response header is documented.
+
+field_expansion:
+  supported: false
+  note: >-
+    There is no generic expand/fields mechanism. Related data is instead embedded by default —
+    for example a post response inlines its author, interaction_counters,
+    own_interaction_state, and any photos, poll, location, open_graph_object or oembed data.
+
+metadata:
+  supported: false
+  note: No user-defined metadata fields on resources.
+
+related:
+  authentication: authentication/diaspora-authentication.yml
+  scopes: scopes/diaspora-scopes.yml
+  errors: errors/diaspora-problem-types.yml
+  lifecycle: lifecycle/diaspora-lifecycle.yml
+  data_model: data-model/diaspora-data-model.yml
+  openapi: openapi/diaspora-api-openapi.yml

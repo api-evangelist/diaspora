@@ -1,0 +1,429 @@
+generated: '2026-07-20'
+method: derived
+source: >-
+  Derived from openapi/diaspora-api-openapi.yml (path nesting and path parameters) and the response
+  examples published on the diaspora* route documentation pages at https://diaspora.github.io/api-documentation/routes/.
+  Entity fields are taken from those published examples, not invented.
+description: >-
+  The entity-relationship graph of the diaspora* API. Two identifier regimes coexist: federated entities
+  (person, post, comment, photo, conversation, poll) are addressed by network-wide GUIDs, while pod-local
+  organizational entities (aspect, notification, poll answer) use integer ids. That split is the clearest
+  signal of what federates across the network and what does not.
+identifiers:
+- kind: GUID
+  format: 32-character lowercase hexadecimal string
+  example: 298962a0b8dc0133e40d406c8f31e210
+  scope: network-wide
+  used_by:
+  - Person
+  - Post
+  - Comment
+  - Photo
+  - Conversation
+  - Message
+  - Poll
+- kind: integer id
+  scope: pod-local
+  used_by:
+  - Aspect
+  - Notification
+  - PollAnswer
+- kind: diaspora_id
+  format: handle of the form user@pod.example
+  example: alice@example.com
+  scope: network-wide
+  used_by:
+  - Person
+  note: The human-facing federated address; the part before @ is the nickname claim.
+entities:
+- name: Person
+  description: >-
+    A user account somewhere on the network — local to this pod or remote. Appears embedded as the author
+    of posts and comments and as a conversation participant.
+  primary_key: guid
+  fields:
+  - name: guid
+    type: string
+  - name: diaspora_id
+    type: string
+  - name: name
+    type: string
+  - name: avatar
+    type: object
+    note: keys large/medium/small, or a single URL string when embedded
+  - name: birthday
+    type: date
+  - name: gender
+    type: string
+  - name: location
+    type: string
+  - name: bio
+    type: string
+  - name: searchable
+    type: boolean
+  - name: show_profile_info
+    type: boolean
+  - name: tags
+    type: array
+  operations:
+  - getUser
+  - updateUser
+  - getUsersByPersonGuid
+  relationships:
+  - type: has_many
+    target: Post
+    via: getUsersByPersonGuidPosts
+  - type: has_many
+    target: Photo
+    via: getUsersByPersonGuidPhotos
+  - type: has_many
+    target: Aspect
+    via: aspect membership
+  - type: has_many
+    target: Block
+    via: users/{person_guid}/block
+- name: Aspect
+  description: >-
+    A user-defined contact group that determines post visibility. The core privacy primitive of diaspora*.
+    Pod-local.
+  primary_key: id
+  fields:
+  - name: id
+    type: integer
+  - name: name
+    type: string
+  - name: order
+    type: integer
+  operations:
+  - getAspects
+  - getAspectsByAspectId
+  - createAspects
+  - updateAspectsByAspectId
+  - deleteAspectsByAspectId
+  relationships:
+  - type: has_many
+    target: Person
+    via: aspects/{aspect_id}/contacts
+  - type: referenced_by
+    target: Post
+    via: aspects field on post creation
+- name: Post
+  description: >-
+    A status message or reshare. The central content entity. post_type is either StatusMessage or Reshare;
+    a Reshare additionally carries a root object describing the original post and author.
+  primary_key: guid
+  fields:
+  - name: guid
+    type: string
+  - name: created_at
+    type: timestamp
+  - name: post_type
+    type: string
+    enum:
+    - StatusMessage
+    - Reshare
+  - name: title
+    type: string
+  - name: body
+    type: string
+    note: markdown, may contain mention syntax
+  - name: provider_display_name
+    type: string
+  - name: public
+    type: boolean
+  - name: nsfw
+    type: boolean
+  - name: interaction_counters
+    type: object
+    note: comments/likes/reshares counts
+  - name: own_interaction_state
+    type: object
+    note: liked/reshared/subscribed/reported
+  operations:
+  - getPostsByPostGuid
+  - createPosts
+  - deletePostsByPostGuid
+  relationships:
+  - type: belongs_to
+    target: Person
+    via: author
+  - type: has_many
+    target: Comment
+    via: posts/{post_guid}/comments
+  - type: has_many
+    target: Like
+    via: posts/{post_guid}/likes
+  - type: has_many
+    target: Post
+    via: posts/{post_guid}/reshares (reshares of this post)
+  - type: has_many
+    target: Photo
+    via: photos array
+  - type: has_many
+    target: Person
+    via: mentioned_people array
+  - type: has_one
+    target: Poll
+    via: poll
+  - type: has_one
+    target: Location
+    via: location
+  - type: has_one
+    target: OpenGraphObject
+    via: open_graph_object
+  - type: has_one
+    target: OEmbed
+    via: oembed
+  - type: has_one
+    target: Post
+    via: root (only when post_type is Reshare)
+- name: Comment
+  description: A reply on a post. Addressed under its parent post, never standalone.
+  primary_key: guid
+  operations:
+  - getPostsByPostGuidComments
+  - createPostsByPostGuidComments
+  - deletePostsByPostGuidCommentsByCommentGuid
+  - createPostsByPostGuidCommentsByCommentGuidReport
+  relationships:
+  - type: belongs_to
+    target: Post
+    via: post_guid path segment
+  - type: belongs_to
+    target: Person
+    via: author
+  - type: has_many
+    target: Like
+    via: posts/{post_guid}/comments/{comment_guid}/likes
+- name: Like
+  description: >-
+    A like on a post or a comment. Has no standalone identity — it is created and deleted against its
+    parent, and its existence is expressed through 409/410 responses.
+  primary_key: none
+  operations:
+  - getPostsByPostGuidLikes
+  - createPostsByPostGuidLikes
+  - deletePostsByPostGuidLikes
+  - getPostsByPostGuidCommentsByCommentGuidLikes
+  - createPostsByPostGuidCommentsByCommentGuidLikes
+  - deletePostsByPostGuidCommentsByCommentGuidLikes
+  relationships:
+  - type: belongs_to
+    target: Person
+    via: author
+  - type: belongs_to
+    target: Post
+    via: post_guid path segment
+  - type: belongs_to
+    target: Comment
+    via: comment_guid path segment (comment likes only)
+- name: Photo
+  description: >-
+    An uploaded image, provided in four resolutions (raw, large, medium, small). Photos are uploaded
+    independently and then attached to a post by GUID.
+  primary_key: guid
+  fields:
+  - name: dimensions
+    type: object
+    note: height and width
+  - name: sizes
+    type: object
+    note: raw/large/medium/small URLs
+  operations:
+  - getPhotos
+  - getPhotosByPhotoGuid
+  - createPhotos
+  - deletePhotosByPhotoGuid
+  relationships:
+  - type: belongs_to
+    target: Person
+    via: author
+  - type: belongs_to
+    target: Post
+    via: attached by GUID in the photos array on post creation
+- name: Poll
+  description: A poll attached to a post, with two or more answers. A user may participate once.
+  primary_key: guid
+  fields:
+  - name: guid
+    type: string
+  - name: question
+    type: string
+  - name: participation_count
+    type: integer
+  - name: already_participated
+    type: boolean
+  operations:
+  - createPostsByPostGuidVote
+  relationships:
+  - type: belongs_to
+    target: Post
+    via: poll
+  - type: has_many
+    target: PollAnswer
+    via: poll_answers
+- name: PollAnswer
+  description: One selectable answer on a poll.
+  primary_key: id
+  fields:
+  - name: id
+    type: integer
+  - name: answer
+    type: string
+  - name: vote_count
+    type: integer
+  - name: own_answer
+    type: boolean
+  relationships:
+  - type: belongs_to
+    target: Poll
+    via: poll_answers
+- name: Conversation
+  description: A private message thread between two or more people.
+  primary_key: guid
+  fields:
+  - name: guid
+    type: string
+  - name: subject
+    type: string
+  - name: created_at
+    type: timestamp
+  - name: read
+    type: boolean
+  operations:
+  - getConversations
+  - getConversationsByConversationGuid
+  - createConversations
+  - updateConversationsByConversationGuid
+  - deleteConversationsByConversationGuid
+  relationships:
+  - type: has_many
+    target: Person
+    via: participants
+  - type: has_many
+    target: Message
+    via: conversations/{conversation_guid}/messages
+- name: Message
+  description: A single private message inside a conversation.
+  primary_key: guid
+  operations:
+  - getConversationsByConversationGuidMessages
+  - createConversationsByConversationGuidMessages
+  relationships:
+  - type: belongs_to
+    target: Conversation
+    via: conversation_guid path segment
+  - type: belongs_to
+    target: Person
+    via: author
+- name: Notification
+  description: A pod-local notification about activity involving the authenticated user.
+  primary_key: id
+  operations:
+  - getNotifications
+  - getNotificationsByNotificationId
+  - updateNotificationsByNotificationId
+  relationships:
+  - type: belongs_to
+    target: Person
+    via: recipient (the authenticated user)
+- name: TagFollowing
+  description: >-
+    A hashtag the authenticated user follows. Addressed by tag name rather than an id — the only entity
+    in the API keyed by a human-readable string.
+  primary_key: tag_name
+  operations:
+  - getTagFollowings
+  - createTagFollowings
+  - deleteTagFollowingsByTagName
+  relationships:
+  - type: belongs_to
+    target: Person
+    via: the authenticated user
+- name: Stream
+  description: >-
+    A derived, read-only collection of posts. Not a stored entity — each stream is a different query
+    over posts, and which posts appear depends on the granted scope set.
+  primary_key: none
+  variants:
+  - main
+  - aspects
+  - activity
+  - mentions
+  - tags
+  - liked
+  - commented
+  operations:
+  - getStreamsMain
+  - getStreamsAspects
+  - getStreamsActivity
+  - getStreamsMentions
+  - getStreamsTags
+  - getStreamsLiked
+  - getStreamsCommented
+  relationships:
+  - type: has_many
+    target: Post
+    via: stream contents
+- name: Block
+  description: A block the authenticated user has placed on another person.
+  primary_key: none
+  operations:
+  - createUsersByPersonGuidBlock
+  - deleteUsersByPersonGuidBlock
+  relationships:
+  - type: belongs_to
+    target: Person
+    via: person_guid path segment
+value_objects:
+- name: Location
+  fields:
+  - address
+  - lat
+  - lng
+  attached_to: Post
+- name: OpenGraphObject
+  fields:
+  - title
+  - type
+  - image
+  - description
+  - url
+  - video_url
+  attached_to: Post
+  note: video_url is validated against a list of secure providers.
+- name: OEmbed
+  fields:
+  - type
+  - html
+  - title
+  - provider_name
+  - provider_url
+  - author_name
+  - author_url
+  - thumbnail_url
+  - width
+  - height
+  - version
+  - trusted_endpoint_url
+  attached_to: Post
+  note: Fetched only from a list of secure oEmbed providers.
+graph_notes:
+- >-
+  Comments, likes and reshares are all addressed under /posts/{post_guid}/..., so Post is the hub of
+  the interaction graph; there are no top-level comment or like collections.
+- >-
+  Likes and blocks have no identity of their own. Their existence is signalled by 409 on create and
+  410 on delete rather than by a resource id.
+- >-
+  Person is the only entity that is both a first-class resource and pervasively embedded — every post,
+  comment, message and conversation inlines an abbreviated author or participant object (guid, diaspora_id,
+  name, avatar).
+- >-
+  Streams are projections over Post, not stored collections, and their contents vary with the caller's
+  granted scopes rather than with request parameters alone.
+render: none
+related:
+  openapi: openapi/diaspora-api-openapi.yml
+  conventions: conventions/diaspora-conventions.yml
+  scopes: scopes/diaspora-scopes.yml

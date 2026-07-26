@@ -1,0 +1,299 @@
+generated: '2026-07-20'
+method: searched
+source: >-
+  https://diaspora.github.io/api-documentation/errors.html for the global response-code list and
+  the error envelope, enriched with the per-operation error tables published on the individual
+  route pages under https://diaspora.github.io/api-documentation/routes/. Cross-checked against
+  the responses captured in openapi/diaspora-api-openapi.yml.
+docs: https://diaspora.github.io/api-documentation/errors.html
+description: >-
+  The diaspora* API returns an HTTP status code alongside a JSON body describing the error. It
+  does NOT use RFC 9457 problem+json — the envelope is a bespoke two-field object, and errors are
+  distinguished by status code and message rather than by a stable machine-readable type or code
+  string. Clients should therefore branch on HTTP status plus the operation they called, not on
+  the message text.
+
+format: custom-json
+rfc9457: false
+content_type: application/json
+envelope:
+  fields:
+  - name: code
+    type: integer
+    description: The HTTP status code, repeated in the body.
+  - name: message
+    type: string
+    description: Human readable description of the error.
+  example:
+    code: 404
+    message: Requested entity wasn't found
+  stable_error_identifier: false
+  note: >-
+    There is no machine-readable error type, slug or sub-code. The message string is the only
+    discriminator beyond the status code, and it is not documented as stable.
+
+status_codes:
+- status: 400
+  title: Wrong request parameter
+  meaning: A supplied parameter was invalid.
+  remediation: Check parameter names, types and value ranges against the route documentation.
+- status: 401
+  title: The API request requires authorization
+  meaning: >-
+    No access token was supplied, or the supplied token is invalid. All API endpoints require
+    authentication.
+  remediation: >-
+    Obtain an access token via OpenID Connect against the target pod, and send it as an
+    Authorization Bearer header.
+  see: authentication/diaspora-authentication.yml
+- status: 403
+  title: Unauthorized
+  meaning: >-
+    The access token is valid but was not granted the OAuth scope the endpoint requires, or the
+    user is not permitted to perform the action on this resource. The response body is empty in
+    the insufficient-scope case.
+  remediation: >-
+    Re-request authorization including the scope documented for the endpoint. Remember that
+    granted scopes may differ from requested scopes, and that private:read/private:modify can only
+    be granted alongside contacts:read.
+  see: scopes/diaspora-scopes.yml
+- status: 404
+  title: Requested entity wasn't found
+  meaning: The addressed entity does not exist, or is not visible to this user.
+  remediation: Verify the GUID or id. Note that visibility rules can render an existing entity absent.
+- status: 409
+  title: Entity already exists
+  meaning: >-
+    The action has already been performed — the like, reshare, block, tag following, report or
+    subscription already exists.
+  remediation: Treat as success-equivalent when the goal is convergence to the desired state.
+- status: 410
+  title: Entity no longer exists / was never present
+  meaning: >-
+    Used on removal endpoints when the thing being removed is not there — the like doesn't exist,
+    the tag was not followed, the block doesn't exist, the post was not subscribed to or is not
+    hidden. Also returned when a comment is not found for the given post.
+  remediation: Treat as success-equivalent when the goal is convergence to the desired state.
+  note: >-
+    410 is not listed in the global error table but is used consistently across the interaction
+    routes.
+- status: 422
+  title: Validation errors
+  meaning: >-
+    The request was well-formed but could not be accepted — a missing report reason, a user not
+    allowed to comment, like or reshare, an unprocessable conversation or comment, or a wrong id
+    in a poll vote.
+  remediation: Inspect the message and correct the request body.
+
+operation_errors:
+- operationId: getPostsByPostGuid
+  errors:
+  - status: 404
+    reason: Post with provided guid could not be found
+- operationId: createPosts
+  errors:
+  - status: 403
+    reason: Failed to create the post
+    note: >-
+      Upstream documents this as a known wart — the status comes from the non-API status message
+      controller and the documentation itself flags that 422 or 400 would be more sensible.
+- operationId: deletePostsByPostGuid
+  errors:
+  - status: 404
+    reason: Post with provided guid could not be found
+  - status: 403
+    reason: Not allowed to delete the post
+- operationId: getPostsByPostGuidComments
+  errors:
+  - status: 404
+    reason: Post with provided guid could not be found
+- operationId: createPostsByPostGuidComments
+  errors:
+  - status: 404
+    reason: Post with provided guid could not be found
+  - status: 422
+    reason: User is not allowed to comment
+  - status: 422
+    reason: Couldn't accept or process the comment
+- operationId: deletePostsByPostGuidCommentsByCommentGuid
+  errors:
+  - status: 403
+    reason: User not allowed to delete the comment
+  - status: 404
+    reason: Post with provided guid could not be found
+  - status: 410
+    reason: Comment not found for the given post
+- operationId: createPostsByPostGuidCommentsByCommentGuidReport
+  errors:
+  - status: 404
+    reason: Post with provided guid could not be found
+  - status: 404
+    reason: Comment not found for the given post
+  - status: 409
+    reason: This item already has been reported by this user
+- operationId: getPostsByPostGuidLikes
+  errors:
+  - status: 404
+    reason: Post with provided guid could not be found
+- operationId: createPostsByPostGuidLikes
+  errors:
+  - status: 404
+    reason: Post with provided guid could not be found
+  - status: 422
+    reason: User is not allowed to like
+  - status: 409
+    reason: Like already exists
+- operationId: deletePostsByPostGuidLikes
+  errors:
+  - status: 404
+    reason: Post with provided guid could not be found
+  - status: 410
+    reason: Like doesn't exist
+- operationId: getPostsByPostGuidCommentsByCommentGuidLikes
+  errors:
+  - status: 404
+    reason: Post or comment with provided guid could not be found
+- operationId: createPostsByPostGuidCommentsByCommentGuidLikes
+  errors:
+  - status: 404
+    reason: Post or comment with provided guid could not be found
+  - status: 422
+    reason: User is not allowed to like
+  - status: 409
+    reason: Like already exists
+- operationId: deletePostsByPostGuidCommentsByCommentGuidLikes
+  errors:
+  - status: 404
+    reason: Post or comment with provided guid could not be found
+  - status: 410
+    reason: Like doesn't exist
+- operationId: createPostsByPostGuidReshares
+  errors:
+  - status: 404
+    reason: Post with provided guid could not be found
+  - status: 422
+    reason: User is not allowed to reshare
+  - status: 409
+    reason: Reshare already exists
+- operationId: createPostsByPostGuidReport
+  errors:
+  - status: 404
+    reason: Post with provided guid could not be found
+  - status: 409
+    reason: Post has already been reported
+  - status: 422
+    reason: Request invalid, such as a missing reason
+- operationId: createPostsByPostGuidSubscribe
+  errors:
+  - status: 404
+    reason: Post with provided guid could not be found
+  - status: 409
+    reason: Already subscribed
+  - status: 422
+    reason: Request invalid
+- operationId: createPostsByPostGuidMute
+  errors:
+  - status: 404
+    reason: Post with provided guid could not be found
+  - status: 410
+    reason: Was not subscribed to this post
+  - status: 422
+    reason: Request invalid
+- operationId: createPostsByPostGuidHide
+  errors:
+  - status: 404
+    reason: Post with provided guid could not be found
+  - status: 409
+    reason: Post is already hidden
+  - status: 410
+    reason: Post is not hidden
+  - status: 422
+    reason: Request invalid
+- operationId: createPostsByPostGuidVote
+  errors:
+  - status: 404
+    reason: Post with provided guid could not be found
+  - status: 410
+    reason: There already was a vote recorded for this poll
+  - status: 422
+    reason: The request was invalid, such as a wrong id given
+- operationId: getConversationsByConversationGuid
+  errors:
+  - status: 404
+    reason: Conversation with provided guid could not be found
+- operationId: createConversations
+  errors:
+  - status: 422
+    reason: Couldn't accept or process the conversation
+- operationId: deleteConversationsByConversationGuid
+  errors:
+  - status: 404
+    reason: Conversation with provided guid could not be found
+- operationId: updateConversationsByConversationGuid
+  errors:
+  - status: 404
+    reason: Conversation with provided guid could not be found
+- operationId: getConversationsByConversationGuidMessages
+  errors:
+  - status: 404
+    reason: Conversation with provided guid could not be found
+- operationId: createConversationsByConversationGuidMessages
+  errors:
+  - status: 404
+    reason: Conversation with provided guid could not be found
+  - status: 422
+    reason: Couldn't accept or process the conversation
+- operationId: createTagFollowings
+  errors:
+  - status: 409
+    reason: Tag was already followed
+- operationId: deleteTagFollowingsByTagName
+  errors:
+  - status: 410
+    reason: Tag was not followed
+- operationId: updateUser
+  errors:
+  - status: 400
+    reason: Wrong value of a parameter
+- operationId: getUsersByPersonGuid
+  errors:
+  - status: 404
+    reason: User with provided guid could not be found
+- operationId: getUsersByPersonGuidPosts
+  errors:
+  - status: 404
+    reason: User with provided guid could not be found
+- operationId: getUsersByPersonGuidPhotos
+  errors:
+  - status: 404
+    reason: User with provided guid could not be found
+- operationId: createUsersByPersonGuidBlock
+  errors:
+  - status: 404
+    reason: User with provided guid could not be found
+  - status: 409
+    reason: Block already exists
+- operationId: deleteUsersByPersonGuidBlock
+  errors:
+  - status: 404
+    reason: User with provided guid could not be found
+  - status: 410
+    reason: Block doesn't exist
+
+client_guidance:
+- >-
+  Treat 409 on a create-interaction call and 410 on the matching delete call as convergence, not
+  failure — both mean the desired end state already holds.
+- >-
+  Do not parse message strings. Branch on status code plus the operation invoked.
+- >-
+  Distinguish 401 (no/invalid token) from 403 (valid token, missing scope or forbidden action);
+  only the former should trigger a re-authentication.
+- >-
+  404 can mean "not visible to you" rather than "does not exist", because visibility is scoped by
+  aspects and federation.
+
+related:
+  conventions: conventions/diaspora-conventions.yml
+  scopes: scopes/diaspora-scopes.yml
+  openapi: openapi/diaspora-api-openapi.yml

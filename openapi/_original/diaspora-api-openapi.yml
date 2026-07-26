@@ -1,0 +1,2647 @@
+openapi: 3.1.0
+info:
+  title: diaspora* API
+  version: '1'
+  description: 'The diaspora* API (version 1) as published in the official diaspora* API documentation.
+    diaspora* is a decentralized social network, so there is no single API host: every pod exposes the
+    same API under its own domain at /api/v1. Version discovery should be performed with nodeinfo before
+    making requests. Authentication is OpenID Connect Core 1.0 with Dynamic Client Registration, because
+    a manual application registration on a single pod is not sufficient. Only JSON is supported. NOTE:
+    upstream marks this API as not yet stable pending the diaspora* 0.8.0.0 release.'
+  contact:
+    name: diaspora* project
+    url: https://diasporafoundation.org/
+  license:
+    name: AGPL-3.0
+    url: https://github.com/diaspora/diaspora/blob/develop/COPYRIGHT
+externalDocs:
+  description: diaspora* API documentation
+  url: https://diaspora.github.io/api-documentation/
+servers:
+- url: https://{pod}/api/v1
+  description: Any diaspora* pod running a compatible release. Discover support via nodeinfo at https://{pod}/.well-known/nodeinfo.
+  variables:
+    pod:
+      default: diaspora.social
+      description: Hostname of the diaspora* pod to talk to.
+tags:
+- name: Aspects
+- name: Comments
+- name: Contacts
+- name: Conversations
+- name: Likes
+- name: Notifications
+- name: Photos
+- name: Post interactions
+- name: Posts
+- name: Reshares
+- name: Search
+- name: Streams
+- name: Tag followings
+- name: Users
+paths:
+  /aspects:
+    get:
+      operationId: getAspects
+      summary: Get lists of aspects
+      tags:
+      - Aspects
+      description: 'Required API scope: contacts:read'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - contacts:read
+    post:
+      operationId: createAspects
+      summary: Create new aspect
+      tags:
+      - Aspects
+      description: 'Required API scope: contacts:modify'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - contacts:modify
+  /aspects/{aspect_id}:
+    get:
+      operationId: getAspectsByAspectId
+      summary: Get information about an aspect
+      tags:
+      - Aspects
+      description: 'Required API scope: contacts:read'
+      parameters:
+      - name: aspect_id
+        in: path
+        required: true
+        description: ID of the aspect.
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - contacts:read
+    patch:
+      operationId: updateAspectsByAspectId
+      summary: Edit an aspect
+      tags:
+      - Aspects
+      description: 'Required API scope: contacts:modify'
+      parameters:
+      - name: aspect_id
+        in: path
+        required: true
+        description: ID of the aspect.
+        schema:
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: The aspects name.
+                order:
+                  type: integer
+                  description: The aspects position in the aspect list. If provided, the aspect will get
+                    inserted into the given position and other aspects will be reordered.
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - contacts:modify
+    delete:
+      operationId: deleteAspectsByAspectId
+      summary: Delete an aspect
+      tags:
+      - Aspects
+      description: 'Required API scope: contacts:modify'
+      parameters:
+      - name: aspect_id
+        in: path
+        required: true
+        description: ID of the aspect.
+        schema:
+          type: integer
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - contacts:modify
+  /aspects/{aspect_id}/contacts:
+    get:
+      operationId: getAspectsByAspectIdContacts
+      summary: Get list of contacts in an aspect
+      tags:
+      - Contacts
+      description: 'Required API scope: contacts:read'
+      parameters:
+      - name: aspect_id
+        in: path
+        required: true
+        description: ID of the aspect.
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - contacts:read
+    post:
+      operationId: createAspectsByAspectIdContacts
+      summary: Add a user to an aspect
+      tags:
+      - Contacts
+      description: 'Required API scope: contacts:modify'
+      parameters:
+      - name: aspect_id
+        in: path
+        required: true
+        description: ID of the aspect.
+        schema:
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                person:
+                  type: object
+                  description: The GUID of the person that should be added to the given aspect.
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - contacts:modify
+  /aspects/{aspect_id}/contacts/{person_guid}:
+    delete:
+      operationId: deleteAspectsByAspectIdContactsByPersonGuid
+      summary: Remove a user from an aspect
+      tags:
+      - Contacts
+      description: 'Required API scope: contacts:modify'
+      parameters:
+      - name: aspect_id
+        in: path
+        required: true
+        description: ID of the aspect.
+        schema:
+          type: integer
+      - name: person_guid
+        in: path
+        required: true
+        description: GUID of the person.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - contacts:modify
+  /conversations:
+    get:
+      operationId: getConversations
+      summary: Get list of all conversations
+      tags:
+      - Conversations
+      description: 'Required API scope: conversations'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - conversations
+    post:
+      operationId: createConversations
+      summary: Create new conversation
+      tags:
+      - Conversations
+      description: 'Required API scope: conversations'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          description: Couldn't accept or process the conversation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - conversations
+  /conversations/{conversation_guid}:
+    get:
+      operationId: getConversationsByConversationGuid
+      summary: Get information about a single conversation
+      tags:
+      - Conversations
+      description: 'Required API scope: conversations'
+      parameters:
+      - name: conversation_guid
+        in: path
+        required: true
+        description: GUID of the conversation.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Conversation with provided guid could not be found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - conversations
+    delete:
+      operationId: deleteConversationsByConversationGuid
+      summary: Ignore and hide a conversation
+      tags:
+      - Conversations
+      description: 'Required API scope: conversations'
+      parameters:
+      - name: conversation_guid
+        in: path
+        required: true
+        description: GUID of the conversation.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Conversation with provided guid could not be found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - conversations
+    patch:
+      operationId: updateConversationsByConversationGuid
+      summary: Mark a conversation as read
+      tags:
+      - Conversations
+      description: 'Required API scope: conversations'
+      parameters:
+      - name: conversation_guid
+        in: path
+        required: true
+        description: GUID of the conversation.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Conversation with provided guid could not be found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - conversations
+  /conversations/{conversation_guid}/messages:
+    get:
+      operationId: getConversationsByConversationGuidMessages
+      summary: List messages in a conversation
+      tags:
+      - Conversations
+      description: 'Required API scope: conversations'
+      parameters:
+      - name: conversation_guid
+        in: path
+        required: true
+        description: GUID of the conversation.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Conversation with provided guid could not be found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - conversations
+    post:
+      operationId: createConversationsByConversationGuidMessages
+      summary: Post new message to a conversation
+      tags:
+      - Conversations
+      description: 'Required API scope: conversations'
+      parameters:
+      - name: conversation_guid
+        in: path
+        required: true
+        description: GUID of the conversation.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Conversation with provided guid could not be found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          description: Couldn't accept or process the conversation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - conversations
+  /notifications:
+    get:
+      operationId: getNotifications
+      summary: Get list of all notifications
+      tags:
+      - Notifications
+      description: 'Required API scope: notifications'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - notifications
+  /notifications/{notification_id}:
+    get:
+      operationId: getNotificationsByNotificationId
+      summary: Get information about a single notification
+      tags:
+      - Notifications
+      description: 'Required API scope: notifications'
+      parameters:
+      - name: notification_id
+        in: path
+        required: true
+        description: ID of the notification.
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - notifications
+    patch:
+      operationId: updateNotificationsByNotificationId
+      summary: Mark a notification as unread
+      tags:
+      - Notifications
+      description: 'Required API scope: notifications'
+      parameters:
+      - name: notification_id
+        in: path
+        required: true
+        description: ID of the notification.
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - notifications
+  /photos:
+    get:
+      operationId: getPhotos
+      summary: Get photos uploaded by the current user
+      tags:
+      - Photos
+      description: 'Required API scope: public:read'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - public:read
+    post:
+      operationId: createPhotos
+      summary: Upload photo
+      tags:
+      - Photos
+      description: 'Required API scope: public:modify or private:modify depending on the photo visibility'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - public:modify
+        - private:modify
+  /photos/{photo_guid}:
+    get:
+      operationId: getPhotosByPhotoGuid
+      summary: Get information about a single photo
+      tags:
+      - Photos
+      description: 'Required API scope: public:read or private:read depending on the photo visibility'
+      parameters:
+      - name: photo_guid
+        in: path
+        required: true
+        description: GUID of the photo.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - public:read
+        - private:read
+    delete:
+      operationId: deletePhotosByPhotoGuid
+      summary: Delete a photo
+      tags:
+      - Photos
+      description: 'Required API scope: public:modify or private:modify depending on the photo visibility'
+      parameters:
+      - name: photo_guid
+        in: path
+        required: true
+        description: GUID of the photo.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - public:modify
+        - private:modify
+  /posts:
+    post:
+      operationId: createPosts
+      summary: Publish a post
+      tags:
+      - Posts
+      description: 'Required API scope: public:modify or private:modify depending on the post visibility'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                aspects:
+                  type: array
+                  description: Array of aspect IDs to share this post with.
+                  items: {}
+                body:
+                  type: string
+                  description: A markdown formatted body with optional mentions.
+                location:
+                  type: object
+                  description: See above.
+                photos:
+                  type: array
+                  description: Array of GUIDs from pending photos that should be attached to a post. (See
+                    the Photos documentation)
+                  items: {}
+                poll:
+                  type: object
+                  description: See above.
+                public:
+                  type: boolean
+                  description: Whether the post should be public or not.
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - public:modify
+        - private:modify
+  /posts/{post_guid}:
+    get:
+      operationId: getPostsByPostGuid
+      summary: Get information about a single post
+      tags:
+      - Posts
+      description: 'Required API scope: public:read or private:read depending on the post visibility'
+      parameters:
+      - name: post_guid
+        in: path
+        required: true
+        description: GUID of the post.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Post with provided guid could not be found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - public:read
+        - private:read
+    delete:
+      operationId: deletePostsByPostGuid
+      summary: Delete a post
+      tags:
+      - Posts
+      description: 'Required API scope: public:modify or private:modify depending on the post visibility'
+      parameters:
+      - name: post_guid
+        in: path
+        required: true
+        description: GUID of the post.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Post with provided guid could not be found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - public:modify
+        - private:modify
+  /posts/{post_guid}/comments:
+    get:
+      operationId: getPostsByPostGuidComments
+      summary: Get comments for a post
+      tags:
+      - Comments
+      description: 'Required API scope: the one which gives read access to the post (public:read for public
+        posts and private:read for private posts).'
+      parameters:
+      - name: post_guid
+        in: path
+        required: true
+        description: GUID of the post.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Post with provided guid could not be found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - public:read
+        - private:read
+    post:
+      operationId: createPostsByPostGuidComments
+      summary: Add a comment to a post
+      tags:
+      - Comments
+      description: 'Required API scope: interactions. Read access to the post must be present too (public:read
+        for public posts and private:read for private posts).'
+      parameters:
+      - name: post_guid
+        in: path
+        required: true
+        description: GUID of the post.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Post with provided guid could not be found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          description: User is not allowed to comment
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - interactions
+        - public:read
+        - private:read
+  /posts/{post_guid}/comments/{comment_guid}:
+    delete:
+      operationId: deletePostsByPostGuidCommentsByCommentGuid
+      summary: Delete a comment
+      tags:
+      - Comments
+      description: 'Required API scope: interactions. Read access to the post must be present too (public:read
+        for public posts and private:read for private posts).'
+      parameters:
+      - name: post_guid
+        in: path
+        required: true
+        description: GUID of the post.
+        schema:
+          type: string
+      - name: comment_guid
+        in: path
+        required: true
+        description: GUID of the comment.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Post with provided guid could not be found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '410':
+          description: Comment not found for the given post
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - interactions
+        - public:read
+        - private:read
+  /posts/{post_guid}/comments/{comment_guid}/likes:
+    get:
+      operationId: getPostsByPostGuidCommentsByCommentGuidLikes
+      summary: Get likes for a comment
+      tags:
+      - Likes
+      description: 'Required API scope: the one which gives read access to the post (public:read for public
+        posts and private:read for private posts).'
+      parameters:
+      - name: post_guid
+        in: path
+        required: true
+        description: GUID of the post.
+        schema:
+          type: string
+      - name: comment_guid
+        in: path
+        required: true
+        description: GUID of the comment.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Post or comment with provided guid could not be found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - public:read
+        - private:read
+    post:
+      operationId: createPostsByPostGuidCommentsByCommentGuidLikes
+      summary: Like a comment
+      tags:
+      - Likes
+      description: 'Required API scope: interactions. Read access to the post must be present too (public:read
+        for public posts and private:read for private posts).'
+      parameters:
+      - name: post_guid
+        in: path
+        required: true
+        description: GUID of the post.
+        schema:
+          type: string
+      - name: comment_guid
+        in: path
+        required: true
+        description: GUID of the comment.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Post or comment with provided guid could not be found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          description: User is not allowed to like
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Like already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - interactions
+        - public:read
+        - private:read
+    delete:
+      operationId: deletePostsByPostGuidCommentsByCommentGuidLikes
+      summary: Unlike a comment
+      tags:
+      - Likes
+      description: 'Required API scope: interactions. Read access to the post must be present too (public:read
+        for public posts and private:read for private posts).'
+      parameters:
+      - name: post_guid
+        in: path
+        required: true
+        description: GUID of the post.
+        schema:
+          type: string
+      - name: comment_guid
+        in: path
+        required: true
+        description: GUID of the comment.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Post or comment with provided guid could not be found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '410':
+          description: Like doesn't exist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - interactions
+        - public:read
+        - private:read
+  /posts/{post_guid}/comments/{comment_guid}/report:
+    post:
+      operationId: createPostsByPostGuidCommentsByCommentGuidReport
+      summary: Report a comment
+      tags:
+      - Comments
+      description: 'Required API scope: interactions. Read access to the post must be present too (public:read
+        for public posts and private:read for private posts).'
+      parameters:
+      - name: post_guid
+        in: path
+        required: true
+        description: GUID of the post.
+        schema:
+          type: string
+      - name: comment_guid
+        in: path
+        required: true
+        description: GUID of the comment.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Post with provided guid could not be found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: This item already has been reported by this user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - interactions
+        - public:read
+        - private:read
+  /posts/{post_guid}/hide:
+    post:
+      operationId: createPostsByPostGuidHide
+      summary: Hide or unhide a post
+      tags:
+      - Post interactions
+      description: 'Required API scope: interactions. Read access to the post must be present too (public:read
+        for public posts and private:read for private posts).'
+      parameters:
+      - name: post_guid
+        in: path
+        required: true
+        description: GUID of the post.
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                hide:
+                  type: boolean
+                  description: Whether the post should be hidden or not.
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Post with provided guid could not be found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Post is already hidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '410':
+          description: Post is not hidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          description: Request invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - interactions
+        - public:read
+        - private:read
+  /posts/{post_guid}/likes:
+    get:
+      operationId: getPostsByPostGuidLikes
+      summary: Get likes for a post
+      tags:
+      - Likes
+      description: 'Required API scope: the one which gives read access to the post (public:read for public
+        posts and private:read for private posts).'
+      parameters:
+      - name: post_guid
+        in: path
+        required: true
+        description: GUID of the post.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Post with provided guid could not be found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - public:read
+        - private:read
+    post:
+      operationId: createPostsByPostGuidLikes
+      summary: Like a post
+      tags:
+      - Likes
+      description: 'Required API scope: interactions. Read access to the post must be present too (public:read
+        for public posts and private:read for private posts).'
+      parameters:
+      - name: post_guid
+        in: path
+        required: true
+        description: GUID of the post.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Post with provided guid could not be found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          description: User is not allowed to like
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Like already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - interactions
+        - public:read
+        - private:read
+    delete:
+      operationId: deletePostsByPostGuidLikes
+      summary: Unlike a post
+      tags:
+      - Likes
+      description: 'Required API scope: interactions. Read access to the post must be present too (public:read
+        for public posts and private:read for private posts).'
+      parameters:
+      - name: post_guid
+        in: path
+        required: true
+        description: GUID of the post.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Post with provided guid could not be found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '410':
+          description: Like doesn't exist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - interactions
+        - public:read
+        - private:read
+  /posts/{post_guid}/mute:
+    post:
+      operationId: createPostsByPostGuidMute
+      summary: Mute (unsubscribe from a) a post
+      tags:
+      - Post interactions
+      description: 'Required API scope: interactions. Read access to the post must be present too (public:read
+        for public posts and private:read for private posts).'
+      parameters:
+      - name: post_guid
+        in: path
+        required: true
+        description: GUID of the post.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Post with provided guid could not be found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '410':
+          description: Was not subscribed to this post
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          description: Request invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - interactions
+        - public:read
+        - private:read
+  /posts/{post_guid}/report:
+    post:
+      operationId: createPostsByPostGuidReport
+      summary: Report a post
+      tags:
+      - Post interactions
+      description: 'Required API scope: interactions. Read access to the post must be present too (public:read
+        for public posts and private:read for private posts).'
+      parameters:
+      - name: post_guid
+        in: path
+        required: true
+        description: GUID of the post.
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reason:
+                  type: string
+                  description: The reason behind reporting this post.
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Post with provided guid could not be found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Post has already been reported
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          description: Request invalid, such as a missing reason
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - interactions
+        - public:read
+        - private:read
+  /posts/{post_guid}/reshares:
+    get:
+      operationId: getPostsByPostGuidReshares
+      summary: Get reshares for a single post
+      tags:
+      - Reshares
+      description: 'Required API scope: public:read'
+      parameters:
+      - name: post_guid
+        in: path
+        required: true
+        description: GUID of the post.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - public:read
+    post:
+      operationId: createPostsByPostGuidReshares
+      summary: Reshare a post
+      tags:
+      - Reshares
+      description: 'Required API scope: public:modify'
+      parameters:
+      - name: post_guid
+        in: path
+        required: true
+        description: GUID of the post.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Post with provided guid could not be found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          description: User is not allowed to reshare
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Reshare already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - public:modify
+  /posts/{post_guid}/subscribe:
+    post:
+      operationId: createPostsByPostGuidSubscribe
+      summary: Subscribe to a post
+      tags:
+      - Post interactions
+      description: 'Required API scope: interactions. Read access to the post must be present too (public:read
+        for public posts and private:read for private posts).'
+      parameters:
+      - name: post_guid
+        in: path
+        required: true
+        description: GUID of the post.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Post with provided guid could not be found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Already subscribed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          description: Request invalid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - interactions
+        - public:read
+        - private:read
+  /posts/{post_guid}/vote:
+    post:
+      operationId: createPostsByPostGuidVote
+      summary: Vote on poll
+      tags:
+      - Post interactions
+      parameters:
+      - name: post_guid
+        in: path
+        required: true
+        description: GUID of the post.
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                poll_answer:
+                  type: integer
+                  description: The id of the answer for which the vote should be recorded for.
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Post with provided guid could not be found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '410':
+          description: There already was a vote recorded for this poll
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          description: The request was invalid, such as a wrong id given
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+  /search/posts:
+    get:
+      operationId: getSearchPosts
+      summary: Search for posts
+      tags:
+      - Search
+      description: 'Required API scope: public:read'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - public:read
+  /search/tags:
+    get:
+      operationId: getSearchTags
+      summary: Search for tags
+      tags:
+      - Search
+      description: 'Required API scope: public:read'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - public:read
+  /search/users:
+    get:
+      operationId: getSearchUsers
+      summary: Search for users
+      tags:
+      - Search
+      description: 'Required API scope: public:read'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - public:read
+  /streams/activity:
+    get:
+      operationId: getStreamsActivity
+      summary: Get activity stream
+      tags:
+      - Streams
+      description: 'Required API scope: private:read'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - private:read
+  /streams/aspects:
+    get:
+      operationId: getStreamsAspects
+      summary: Get aspect stream
+      tags:
+      - Streams
+      description: 'Required API scope: private:read'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - private:read
+  /streams/commented:
+    get:
+      operationId: getStreamsCommented
+      summary: Get commented stream
+      tags:
+      - Streams
+      description: 'Required API scope: private:read'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - private:read
+  /streams/liked:
+    get:
+      operationId: getStreamsLiked
+      summary: Get liked stream
+      tags:
+      - Streams
+      description: 'Required API scope: private:read'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - private:read
+  /streams/main:
+    get:
+      operationId: getStreamsMain
+      summary: Get the main stream
+      tags:
+      - Streams
+      description: 'Required API scope: private:read'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - private:read
+  /streams/mentions:
+    get:
+      operationId: getStreamsMentions
+      summary: Get mentions stream
+      tags:
+      - Streams
+      description: 'Required API scope: private:read'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - private:read
+  /streams/tags:
+    get:
+      operationId: getStreamsTags
+      summary: Get tag stream
+      tags:
+      - Streams
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+  /tag_followings:
+    get:
+      operationId: getTagFollowings
+      summary: Get list of followed tags
+      tags:
+      - Tag followings
+      description: 'Required API scope: tags:read'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - tags:read
+    post:
+      operationId: createTagFollowings
+      summary: Follow a tag
+      tags:
+      - Tag followings
+      description: 'Required API scope: tags:modify'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: The name of the tag to be followed.
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Tag was already followed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - tags:modify
+  /tag_followings/{tag_name}:
+    delete:
+      operationId: deleteTagFollowingsByTagName
+      summary: Unfollow a tag
+      tags:
+      - Tag followings
+      description: 'Required API scope: tags:modify'
+      parameters:
+      - name: tag_name
+        in: path
+        required: true
+        description: Name of the tag.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '410':
+          description: Tag was not followed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - tags:modify
+  /user:
+    get:
+      operationId: getUser
+      summary: Get information about the authenticated user
+      tags:
+      - Users
+      description: 'Required API scope: profile'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - profile
+    patch:
+      operationId: updateUser
+      summary: Update the currently authenticated users profile
+      tags:
+      - Users
+      description: 'Required API scope: profile:modify'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                bio:
+                  type: string
+                  description: The profiles long bio text.
+                birthday:
+                  type: object
+                  description: The users birthday. ISO 8601, date only
+                gender:
+                  type: string
+                  description: The profiles gender.
+                location:
+                  type: string
+                  description: The users location.
+                name:
+                  type: string
+                  description: The new profile name.
+                nsfw:
+                  type: boolean
+                  description: Whether the profile should be marked as NSFW.
+                searchable:
+                  type: boolean
+                  description: Whether the profile should be searchable via the profile name or not.
+                show_profile_info:
+                  type: boolean
+                  description: whether the public info should be publicly visible or not.
+                tags:
+                  type: array
+                  description: Up to five tags to tag the profile with.
+                  items: {}
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '400':
+          description: Wrong value of a parameter
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - profile:modify
+  /users/{person_guid}:
+    get:
+      operationId: getUsersByPersonGuid
+      summary: Get information about a single user
+      tags:
+      - Users
+      description: 'Required API scope: public:read'
+      parameters:
+      - name: person_guid
+        in: path
+        required: true
+        description: GUID of the person.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: User with provided guid could not be found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - public:read
+  /users/{person_guid}/block:
+    post:
+      operationId: createUsersByPersonGuidBlock
+      summary: Block a user
+      tags:
+      - Users
+      description: 'Required API scope: contacts:modify.'
+      parameters:
+      - name: person_guid
+        in: path
+        required: true
+        description: GUID of the person.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: User with provided guid could not be found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Block already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - contacts:modify
+    delete:
+      operationId: deleteUsersByPersonGuidBlock
+      summary: Unblock a user
+      tags:
+      - Users
+      description: 'Required API scope: contacts:modify.'
+      parameters:
+      - name: person_guid
+        in: path
+        required: true
+        description: GUID of the person.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: User with provided guid could not be found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '410':
+          description: Block doesn't exist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - contacts:modify
+  /users/{person_guid}/photos:
+    get:
+      operationId: getUsersByPersonGuidPhotos
+      summary: Get photos by a single user
+      tags:
+      - Users
+      description: 'Required API scope: public:read'
+      parameters:
+      - name: person_guid
+        in: path
+        required: true
+        description: GUID of the person.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: User with provided guid could not be found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - public:read
+  /users/{person_guid}/posts:
+    get:
+      operationId: getUsersByPersonGuidPosts
+      summary: Get posts by a single user
+      tags:
+      - Users
+      description: 'Required API scope: public:read'
+      parameters:
+      - name: person_guid
+        in: path
+        required: true
+        description: GUID of the person.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+        '401':
+          description: The API request requires authorization
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: User with provided guid could not be found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+      - openIdConnect:
+        - openid
+        - public:read
+components:
+  securitySchemes:
+    openIdConnect:
+      type: openIdConnect
+      description: OpenID Connect Core 1.0 (Authorization Code Flow or Implicit Flow) with Dynamic Client
+        Registration 1.0. The openid scope is mandatory; public:read is always granted.
+      openIdConnectUrl: https://diaspora.social/.well-known/openid-configuration
+  schemas:
+    Error:
+      type: object
+      description: Error envelope returned by the diaspora* API.
+      properties:
+        code:
+          type: integer
+          description: HTTP status code.
+          example: 404
+        message:
+          type: string
+          description: Human readable error message.
+          example: Requested entity wasn't found

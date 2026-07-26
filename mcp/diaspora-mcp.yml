@@ -1,0 +1,173 @@
+generated: '2026-07-20'
+method: derived
+source: >-
+  Derived from openapi/diaspora-api-openapi.yml. A search of the diaspora* GitHub organization,
+  the project site, the API documentation and the official MCP registry found no first-party or
+  hosted MCP server for diaspora*, so the tool list below is a CANDIDATE design, not a published
+  artifact.
+status: candidate
+official_server: false
+hosted_endpoint: none
+description: >-
+  A candidate Model Context Protocol tool surface for the diaspora* API. The decentralized design
+  shapes the whole server: a pod host is not configuration that can be baked in once, it is a
+  required parameter of the session, and the client must complete OpenID Connect Dynamic Client
+  Registration against that pod before any tool can run. Tools are therefore grouped so that
+  discovery and authorization come first.
+
+search_performed:
+  checked:
+  - https://github.com/diaspora (organization repository list)
+  - https://diaspora.github.io/api-documentation/
+  - https://diasporafoundation.org/
+  - MCP registry
+  result: no official or community MCP server found
+
+prerequisites:
+- id: pod-selection
+  detail: >-
+    Every tool call is scoped to a single pod host. The server must be configured with, or
+    prompted for, the pod the authenticated user belongs to.
+- id: nodeinfo-check
+  detail: >-
+    Confirm the pod runs a diaspora* release that supports API v1 by reading
+    /.well-known/nodeinfo before any other call.
+- id: oidc-registration
+  detail: >-
+    Register the client against the pod via OpenID Connect Dynamic Client Registration
+    (POST /api/openid_connect/clients), then complete the Authorization Code Flow to obtain an
+    access token.
+
+scope_requirements:
+  mandatory: [openid]
+  always_granted: [public:read]
+  recommended_for_full_surface:
+  - openid
+  - profile
+  - contacts:read
+  - contacts:modify
+  - private:read
+  - public:read
+  - public:modify
+  - interactions
+  - conversations
+  - notifications
+  - tags:read
+  - tags:modify
+  note: >-
+    private:read and private:modify can only be granted alongside contacts:read. Request the
+    narrowest set the task needs — a read-only agent should ask for openid, profile, public:read,
+    private:read and contacts:read only.
+
+tools:
+- name: diaspora_read_stream
+  summary: Read a timeline stream of posts.
+  operations: [getStreamsMain, getStreamsAspects, getStreamsActivity, getStreamsMentions, getStreamsTags, getStreamsLiked, getStreamsCommented]
+  scopes: [private:read, tags:read]
+  parameters: [stream, page, per_page]
+  caution: >-
+    Stream contents vary with granted scopes. A thin result usually means a missing scope, not an
+    empty timeline.
+- name: diaspora_get_post
+  summary: Fetch a single post with its embedded content and interaction counters.
+  operations: [getPostsByPostGuid]
+  scopes: [public:read, private:read]
+  parameters: [post_guid]
+- name: diaspora_publish_post
+  summary: Publish a status message, optionally to selected aspects, with photos or a poll.
+  operations: [createPosts]
+  scopes: [public:modify, private:modify]
+  parameters: [body, public, aspects, photos, poll, location]
+  write: true
+- name: diaspora_delete_post
+  summary: Delete one of the authenticated user's posts.
+  operations: [deletePostsByPostGuid]
+  scopes: [public:modify, private:modify]
+  write: true
+  destructive: true
+- name: diaspora_comment
+  summary: Read, add or delete comments on a post.
+  operations: [getPostsByPostGuidComments, createPostsByPostGuidComments, deletePostsByPostGuidCommentsByCommentGuid]
+  scopes: [interactions, public:read, private:read]
+  write: true
+- name: diaspora_react
+  summary: Like or unlike a post or comment, and read who liked it.
+  operations: [getPostsByPostGuidLikes, createPostsByPostGuidLikes, deletePostsByPostGuidLikes, getPostsByPostGuidCommentsByCommentGuidLikes, createPostsByPostGuidCommentsByCommentGuidLikes, deletePostsByPostGuidCommentsByCommentGuidLikes]
+  scopes: [interactions]
+  write: true
+  caution: >-
+    409 means the like already exists and 410 means it was already absent — both are convergence,
+    not errors.
+- name: diaspora_reshare
+  summary: Reshare a public post, or list reshares of a post.
+  operations: [getPostsByPostGuidReshares, createPostsByPostGuidReshares]
+  scopes: [public:read, public:modify]
+  write: true
+- name: diaspora_post_interactions
+  summary: Report, subscribe to, mute, hide a post, or vote in its poll.
+  operations: [createPostsByPostGuidReport, createPostsByPostGuidSubscribe, createPostsByPostGuidMute, createPostsByPostGuidHide, createPostsByPostGuidVote]
+  scopes: [interactions]
+  write: true
+- name: diaspora_search
+  summary: Search users, posts and tags on the pod.
+  operations: [getSearchUsers, getSearchPosts, getSearchTags]
+  scopes: [public:read]
+- name: diaspora_manage_aspects
+  summary: List, create, rename, reorder and delete aspects, and manage their membership.
+  operations: [getAspects, getAspectsByAspectId, createAspects, updateAspectsByAspectId, deleteAspectsByAspectId, getAspectsByAspectIdContacts, createAspectsByAspectIdContacts, deleteAspectsByAspectIdContactsByPersonGuid]
+  scopes: [contacts:read, contacts:modify]
+  write: true
+  caution: >-
+    Aspects control who can see private posts. Changing membership changes the audience of content
+    already shared.
+- name: diaspora_conversations
+  summary: Read and send private messages.
+  operations: [getConversations, getConversationsByConversationGuid, createConversations, updateConversationsByConversationGuid, deleteConversationsByConversationGuid, getConversationsByConversationGuidMessages, createConversationsByConversationGuidMessages]
+  scopes: [conversations]
+  write: true
+  sensitive: true
+- name: diaspora_notifications
+  summary: List notifications and mark them unread.
+  operations: [getNotifications, getNotificationsByNotificationId, updateNotificationsByNotificationId]
+  scopes: [notifications]
+- name: diaspora_photos
+  summary: List, fetch, upload and delete photos.
+  operations: [getPhotos, getPhotosByPhotoGuid, createPhotos, deletePhotosByPhotoGuid]
+  scopes: [public:read, public:modify, private:modify]
+  write: true
+- name: diaspora_tag_followings
+  summary: List, follow and unfollow hashtags.
+  operations: [getTagFollowings, createTagFollowings, deleteTagFollowingsByTagName]
+  scopes: [tags:read, tags:modify]
+  write: true
+- name: diaspora_profile
+  summary: Read the authenticated user's profile, update it, or look up another user.
+  operations: [getUser, updateUser, getUsersByPersonGuid, getUsersByPersonGuidPosts, getUsersByPersonGuidPhotos]
+  scopes: [profile, profile:modify, profile:read_private, public:read]
+  write: true
+- name: diaspora_block
+  summary: Block or unblock a person.
+  operations: [createUsersByPersonGuidBlock, deleteUsersByPersonGuidBlock]
+  scopes: [contacts:modify]
+  write: true
+
+implementation_notes:
+- >-
+  No idempotency mechanism exists. Retrying a write is not safe in general — but the interaction
+  endpoints (like, reshare, block, tag following, report, subscribe) signal already-applied state
+  with 409/410, so those specific retries converge safely.
+- >-
+  No rate limiting is documented. Pods are volunteer-operated and often small; a client should
+  self-limit rather than assume capacity.
+- >-
+  Never construct pagination URLs. Follow the Link header — some resources page by timestamp or
+  GUID.
+- >-
+  Treat 404 as possibly meaning "not visible to you" rather than "does not exist", because
+  visibility is governed by aspects and by federation reach.
+
+related:
+  openapi: openapi/diaspora-api-openapi.yml
+  skills: skills/_index.yml
+  scopes: scopes/diaspora-scopes.yml
+  authentication: authentication/diaspora-authentication.yml

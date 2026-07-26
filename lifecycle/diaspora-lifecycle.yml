@@ -1,0 +1,137 @@
+generated: '2026-07-20'
+method: searched
+source: >-
+  https://diaspora.github.io/api-documentation/ (API support and stability statement),
+  https://github.com/diaspora/diaspora/blob/develop/SECURITY.md (supported versions),
+  https://raw.githubusercontent.com/diaspora/diaspora/develop/Changelog.md (release history and
+  deprecation announcements), and the GitHub releases API for diaspora/diaspora (release dates).
+description: >-
+  How the diaspora* API is versioned, supported, deprecated and operated. The controlling fact is
+  decentralization: the project ships software, podmins run it, and there is no central operator.
+  That means there is no SLA and no status page for "the API" — availability is a property of
+  whichever pod a client talks to, which is why the documentation insists on nodeinfo discovery
+  before any request.
+
+versioning:
+  scheme: path
+  current_version: v1
+  path_prefix: /api/v1
+  policy_url: https://diaspora.github.io/api-documentation/
+  version_discovery:
+    mechanism: NodeInfo
+    path: /.well-known/nodeinfo
+    spec: http://nodeinfo.diaspora.software/
+    guidance: >-
+      Version discovery should be done using nodeinfo prior to making any requests, to ensure the
+      endpoints are available. If a compatible diaspora* version was detected once, it is safe to
+      assume that pod will stay compatible.
+  note: >-
+    API version is decoupled from product version. API v1 is the only version ever shipped; it
+    became officially supported in product release 0.9.0.0.
+
+stability:
+  status: officially-supported
+  first_supported_release: 0.9.0.0
+  first_supported_date: '2024-06-16'
+  caveat: >-
+    The API documentation index still carries a warning banner stating the API is not stable
+    pending release 0.8.0.0. That banner is stale — the API shipped as officially supported in
+    0.9.0.0, whose changelog reads "With the release of diaspora* Version 0.9, we now officially
+    support building applications on top of the diaspora* API!". Treat the banner as an
+    unmaintained document, not as current guidance.
+
+support_policy:
+  source: https://github.com/diaspora/diaspora/blob/develop/SECURITY.md
+  supported:
+  - The latest stable release
+  - The current state of the develop branch
+  unsupported:
+  - All older releases (security issues out of scope)
+  note: >-
+    This is the project's only formal support window statement. It governs security fixes to the
+    software; it does not constitute an availability commitment for any pod.
+
+deprecation:
+  policy_published: true
+  policy_style: >-
+    Deprecations are announced in the release changelog with a named target release, and removals
+    are listed under a Refactor heading in the release that performs them. There is no
+    Deprecation/Sunset HTTP header mechanism (RFC 8594) on the API.
+  rfc8594_headers: false
+  sunset_header: false
+  deprecation_header: false
+  announced_deprecations:
+  - subject: YAML configuration file (config/diaspora.yml)
+    announced_in: 0.9.0.0
+    removal_target: '1.0'
+    detail: >-
+      diaspora* now uses TOML for the configuration file. With the next major release (1.0)
+      diaspora* will no longer read the YAML based configuration file.
+    scope: pod-operations
+  - subject: Deprecated mention syntax "@{Display Name; handle@example.com}"
+    announced_in: api-documentation (posts route)
+    detail: >-
+      The primary mention form in post bodies is "@{handle@example.com}". A deprecated variant
+      carrying a display name before a semicolon may still be encountered; clients should prefer
+      the name from the matching mentioned_people entry when available.
+    scope: api
+    removal_target: none announced
+  removed_features:
+  - subject: External services (Twitter, Tumblr, WordPress) cross-posting
+    removed_in: unreleased
+  - subject: PubSubHubbub
+    removed_in: unreleased
+  - subject: Legacy Google Analytics integration
+    removed_in: unreleased
+  - subject: XMPP / JSXC / Prosody chat integration
+    removed_in: 0.9.0.0
+  - subject: Relay support
+    removed_in: 0.9.0.0
+  - subject: Old federation protocol
+    removed_in: 0.9.0.0
+  deprecated_operations_in_openapi: []
+  note: >-
+    No operation in openapi/diaspora-api-openapi.yml is marked deprecated. The API surface has not
+    removed or deprecated any documented route.
+
+sla:
+  published: false
+  reason: >-
+    No central operator. Each pod is run independently by its podmin, so there is no party in a
+    position to offer a service level agreement for the network.
+
+status_page:
+  official: false
+  note: >-
+    The project publishes no status page. Third-party pod uptime and capability data is available
+    at https://diaspora.fediverse.observer/ (HTTP 200), which the project site links to for
+    choosing a pod, but it is community-operated rather than an official status page.
+  third_party:
+  - url: https://diaspora.fediverse.observer/
+    operator: fediverse.observer (community)
+    provides: pod list, uptime, version and capability data
+
+releases:
+  cadence: irregular
+  source: https://github.com/diaspora/diaspora/releases
+  recent:
+  - version: 0.9.1.0
+    date: '2026-04-07'
+  - version: 0.9.0.0
+    date: '2024-06-16'
+  - version: 0.7.18.2
+    date: '2023-07-10'
+  - version: 0.7.18.1
+    date: '2022-09-10'
+  - version: 0.7.18.0
+    date: '2022-07-31'
+
+security:
+  disclosure: security/diaspora-vulnerability-disclosure.yml
+  contact: security@diasporafoundation.org
+
+related:
+  changelog: changelog/diaspora-changelog.yml
+  conventions: conventions/diaspora-conventions.yml
+  conformance: conformance/diaspora-conformance.yml
+  openapi: openapi/diaspora-api-openapi.yml

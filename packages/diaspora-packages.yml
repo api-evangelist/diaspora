@@ -1,0 +1,98 @@
+generated: '2026-07-20'
+method: searched
+source: >-
+  RubyGems API (rubygems.org/api/v1) and the npm registry (registry.npmjs.org), cross-referenced
+  against the repositories published under the github.com/diaspora organization. Probed
+  2026-07-20.
+description: >-
+  The diaspora* project publishes first-party libraries, but they are federation-protocol and
+  content-rendering libraries used to build and interoperate with diaspora* pods — not client SDKs
+  for the /api/v1 REST API. As of this pass the project ships NO official client SDK for its own
+  HTTP API in any language: the API documentation directs implementers to standard OpenID Connect
+  libraries and plain HTTP. That is an honest gap, not an omission in this file.
+
+official_client_sdk_for_rest_api: false
+official_package_count: 5
+
+packages:
+- name: diaspora_federation
+  registry: rubygems
+  language: ruby
+  official: true
+  url: https://rubygems.org/gems/diaspora_federation
+  repository: https://github.com/diaspora/diaspora_federation
+  documentation: https://www.rubydoc.info/gems/diaspora_federation
+  latest_version: 1.2.0
+  downloads: 155531
+  license: AGPL-3.0
+  role: federation-protocol
+  description: >-
+    Provides de-/serialization and de-/encryption of entities in the protocols used for
+    communication among the various installations of diaspora*.
+- name: diaspora_federation-rails
+  registry: rubygems
+  language: ruby
+  official: true
+  url: https://rubygems.org/gems/diaspora_federation-rails
+  repository: https://github.com/diaspora/diaspora_federation
+  latest_version: 1.2.0
+  downloads: 151236
+  license: AGPL-3.0
+  role: federation-protocol
+  description: A Rails engine that adds the diaspora* federation protocol to a Rails application.
+- name: diaspora_federation-test
+  registry: rubygems
+  language: ruby
+  official: true
+  url: https://rubygems.org/gems/diaspora_federation-test
+  repository: https://github.com/diaspora/diaspora_federation
+  latest_version: 1.2.0
+  downloads: 87649
+  license: AGPL-3.0
+  role: testing
+  description: Test helpers and factories for the diaspora* federation protocol libraries.
+- name: diaspora_federation-json_schema
+  registry: rubygems
+  language: ruby
+  official: true
+  url: https://rubygems.org/gems/diaspora_federation-json_schema
+  repository: https://github.com/diaspora/diaspora_federation
+  latest_version: 1.2.0
+  downloads: 81245
+  license: AGPL-3.0
+  role: schema
+  description: JSON Schema definitions for diaspora* federation entities.
+- name: markdown-it-diaspora-mention
+  registry: npm
+  language: javascript
+  official: true
+  url: https://www.npmjs.com/package/markdown-it-diaspora-mention
+  repository: https://github.com/diaspora/markdown-it-diaspora-mention
+  latest_version: 1.2.0
+  license: MIT
+  role: content-rendering
+  description: >-
+    A markdown-it plugin that renders diaspora* mention syntax, including the deprecated
+    "@{Name; handle}" variant, when rendering post bodies.
+
+registries_checked:
+- registry: rubygems
+  result: 4 official packages
+- registry: npm
+  result: 1 official package
+- registry: pypi
+  result: none first-party
+- registry: maven-central
+  result: none first-party
+- registry: nuget
+  result: none first-party
+- registry: pkg.go.dev
+  result: none first-party
+- registry: packagist
+  result: none first-party
+- registry: crates.io
+  result: none first-party
+
+related:
+  openapi: openapi/diaspora-api-openapi.yml
+  authentication: authentication/diaspora-authentication.yml

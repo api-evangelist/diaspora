@@ -1,0 +1,163 @@
+generated: '2026-07-20'
+method: searched
+source: >-
+  https://raw.githubusercontent.com/diaspora/diaspora/develop/Changelog.md (HTTP 200) for entry
+  content, and the GitHub releases API for diaspora/diaspora for authoritative release dates.
+  Fetched 2026-07-20.
+docs: https://github.com/diaspora/diaspora/blob/develop/Changelog.md
+description: >-
+  diaspora* keeps a hand-written changelog in the source repository, organized by product release
+  and grouped into Security / Refactor / Bug fixes / Features headings, with every line linking to
+  the pull request or issue that made the change. There is no separate API changelog — API changes
+  appear inline with product changes, so an API consumer has to read the product changelog to
+  track them. Only the recent window is captured here.
+
+scheme:
+  format: markdown
+  location: repository root (Changelog.md)
+  organized_by: release
+  standard_sections:
+  - Security
+  - Refactor
+  - Bug fixes
+  - Features
+  entry_linking: Each line links to the originating GitHub pull request or issue.
+  api_specific_changelog: false
+  dated_in_file: false
+  note: >-
+    The changelog file itself is not dated; release dates below come from the GitHub releases API.
+    An "unreleased" section at the top accumulates changes on the develop branch.
+
+current_version: 0.9.1.0
+current_version_date: '2026-04-07'
+api_version: v1
+
+entries:
+- version: unreleased
+  date: null
+  branch: develop
+  breaking: true
+  breaking_detail: >-
+    Removal of external service cross-posting (Twitter, Tumblr, WordPress) and PubSubHubbub
+    removes functionality some deployments depended on.
+  highlights:
+  - type: refactor
+    summary: Dropped external services integration (Twitter, Tumblr, WordPress).
+    ref: https://github.com/diaspora/diaspora/pull/8479
+  - type: refactor
+    summary: Dropped PubSubHubbub.
+    ref: https://github.com/diaspora/diaspora/pull/8479
+  - type: refactor
+    summary: Dropped the legacy Google Analytics integration.
+    ref: https://github.com/diaspora/diaspora/pull/8479
+  - type: feature
+    summary: Switched the cookie serializer to "hybrid".
+    ref: https://github.com/diaspora/diaspora/pull/8479
+  - type: fix
+    summary: Fixed various deprecation warnings.
+    ref: https://github.com/diaspora/diaspora/pull/8479
+
+- version: 0.9.1.0
+  date: '2026-04-07'
+  breaking: false
+  api_relevant: true
+  highlights:
+  - type: security
+    summary: >-
+      Fixed a vulnerability in the OpenID Connect API implementation where an attacker could use
+      malicious client registrations to trigger HTTP requests within the pod's private network.
+    api_impact: >-
+      Directly affects the Dynamic Client Registration endpoint that the diaspora* API depends on
+      for third-party application onboarding.
+  - type: fix
+    summary: Handled minimagick errors when uploading photos to the API.
+    ref: https://github.com/diaspora/diaspora/pull/8469
+    api_impact: Affects the photo upload operation (createPhotos).
+  - type: refactor
+    summary: Improved compatibility with non-specification-compliant OpenGraph metadata.
+    ref: https://github.com/diaspora/diaspora/pull/8465
+    api_impact: Affects the open_graph_object embedded in post responses.
+  - type: fix
+    summary: Fixed a bug with parsing certain OpenGraph metadata structures.
+    ref: https://github.com/diaspora/diaspora/pull/8463
+  - type: feature
+    summary: Notifications are now marked as read when you block a person.
+    ref: https://github.com/diaspora/diaspora/pull/8456
+    api_impact: Changes observable state returned by the notifications endpoints.
+  - type: feature
+    summary: For admins, the offending content's author is now visible in the reports overview.
+    ref: https://github.com/diaspora/diaspora/pull/8464
+
+- version: 0.9.0.0
+  date: '2024-06-16'
+  breaking: true
+  api_relevant: true
+  landmark: true
+  breaking_detail: >-
+    Configuration moved to TOML (YAML deprecated for removal in 1.0); the appserver changed from
+    unicorn to puma with mandatory configuration changes; single_process_mode and
+    embed_sidekiq_worker were removed; the listen configuration format changed; the PORT env var
+    and -p flag were removed; XMPP chat integration, relay support and the old federation protocol
+    were removed.
+  highlights:
+  - type: feature
+    summary: >-
+      The diaspora* API became officially supported — "With the release of diaspora* Version 0.9,
+      we now officially support building applications on top of the diaspora* API!"
+    api_impact: >-
+      This is the release that makes /api/v1 a supported integration surface. It is the effective
+      birth date of the API for consumers.
+    ref: https://diaspora.github.io/api-documentation/
+  - type: security
+    summary: Fixed a potential 2FA brute force attack (CVE-2024-0227).
+    cve: CVE-2024-0227
+    credit: >-
+      Christian Reitter (Radically Open Security) and Chris MacNaughton (Centauri Solutions).
+  - type: breaking
+    summary: >-
+      Configuration switched to TOML. The YAML configuration file will no longer be read as of
+      release 1.0.
+  - type: breaking
+    summary: Replaced unicorn with puma as the application server.
+    ref: https://github.com/diaspora/diaspora/pull/8392
+  - type: breaking
+    summary: Removed the XMPP chat integration (JSXC/Prosody).
+    ref: https://github.com/diaspora/diaspora/pull/8069
+  - type: refactor
+    summary: >-
+      Upgraded to the latest diaspora_federation and removed support for the old federation
+      protocol.
+    ref: https://github.com/diaspora/diaspora/pull/8368
+  - type: refactor
+    summary: Enabled the Content-Security-Policy header by default.
+    ref: https://github.com/diaspora/diaspora/pull/7781
+  - type: refactor
+    summary: Added CORS headers to nodeinfo endpoints to allow client-side fetching.
+    ref: https://github.com/diaspora/diaspora/pull/8436
+    api_impact: >-
+      Makes browser-based version discovery possible, which the API documentation requires before
+      making requests.
+  - type: fix
+    summary: Updated the search endpoint to be aware of ignored users.
+    ref: https://github.com/diaspora/diaspora/pull/8363
+    api_impact: Affects the search operations.
+  - type: feature
+    summary: Added backend for archive import.
+  - type: refactor
+    summary: Added Ruby 3 support; suggested Ruby version is now 3.3.
+
+- version: 0.7.18.2
+  date: '2023-07-10'
+  breaking: false
+  highlights:
+  - type: maintenance
+    summary: Final maintenance release of the 0.7 series.
+
+release_history_url: https://github.com/diaspora/diaspora/releases
+window: >-
+  Recent window only — the changelog file itself carries the full history back through the 0.1
+  series.
+
+related:
+  lifecycle: lifecycle/diaspora-lifecycle.yml
+  security: security/diaspora-vulnerability-disclosure.yml

@@ -1,0 +1,214 @@
+generated: '2026-07-20'
+method: searched
+source: >-
+  https://diaspora.github.io/api-documentation/scopes.html — the official diaspora* "Access scopes"
+  reference. Cross-checked against the live scopes_supported list returned by
+  https://diaspora.social/.well-known/openid-configuration (HTTP 200) and against the per-operation
+  "Required API scope" annotations captured in openapi/diaspora-api-openapi.yml.
+docs: https://diaspora.github.io/api-documentation/scopes.html
+description: >-
+  diaspora* implements access scopes as defined by OAuth 2.0 (RFC 6749 §3.3), which OpenID Connect
+  Core 1.0 builds on. A client requests a set of scopes when it requests an access token; the
+  granted set may differ from the requested set. Every API endpoint requires at least one granted
+  scope — a request carrying a token without the endpoint's scope returns 403 with no content.
+  For some resources (posts, photos) the required scope depends on the visibility of the data
+  (public vs private), and for others (streams) the granted scope set determines which data the
+  response contains.
+
+standard: OAuth 2.0 / OpenID Connect Core 1.0
+scope_count: 16
+mandatory_scopes:
+- openid
+always_granted_scopes:
+- public:read
+
+notes:
+- >-
+  The openid scope is mandatory. If it is missing, API authentication fails outright.
+- >-
+  public:read is a special case: it is granted to every authorized client even when not explicitly
+  requested, because it only covers data that is public anyway. There is no way to opt out of it.
+- >-
+  Some scopes depend on other scopes and can only be granted alongside them.
+- >-
+  The live discovery document on diaspora.social also lists the OpenID claim names (name,
+  nickname, picture, sub) in scopes_supported alongside the real scopes; those are claims granted
+  via the profile scope, not independent scopes.
+
+scopes:
+- name: openid
+  origin: openid-connect
+  required: true
+  description: >-
+    Defined by the OpenID Connect specification. Mandatory — allows using OpenID Connect
+    authentication. If missing, API authentication will fail.
+- name: profile
+  origin: openid-connect
+  description: >-
+    Defined by the OpenID Connect specification. Allows reading the user's own claims (user
+    properties) via the UserInfo route or from the ID Token, and grants access to the "read own
+    profile" diaspora* API endpoint.
+  grants_claims:
+  - claim: name
+    meaning: Full name
+  - claim: nickname
+    meaning: The left part of the diaspora handle, before the @ sign
+  - claim: profile
+    meaning: The user's profile URL address
+  - claim: picture
+    meaning: The user's avatar URL address
+  - claim: sub
+    meaning: The diaspora* ID of the user
+  operations:
+  - getUser
+- name: email
+  origin: openid-connect
+  description: >-
+    Defined by the OpenID Connect specification. Allows reading the user's own email address using
+    the UserInfo route or from the ID Token.
+- name: profile:read_private
+  origin: diaspora
+  description: >-
+    Gives access to additional profile fields which are part of the user's private profile.
+- name: profile:modify
+  origin: diaspora
+  description: Gives access to updating a user's own profile.
+  operations:
+  - updateUser
+- name: public:read
+  origin: diaspora
+  always_granted: true
+  description: >-
+    Read public profiles of users, perform search among publicly searchable profiles, read public
+    posts, read reshares, and read public post interactions (likes, comments). Granted to any
+    authorized entity even when not explicitly requested.
+  operations:
+  - getPhotos
+  - getPhotosByPhotoGuid
+  - getPostsByPostGuid
+  - getPostsByPostGuidReshares
+  - getSearchUsers
+  - getSearchPosts
+  - getSearchTags
+  - getUsersByPersonGuid
+  - getUsersByPersonGuidPosts
+  - getUsersByPersonGuidPhotos
+- name: public:modify
+  origin: diaspora
+  description: >-
+    Create public posts and reshares, post photos, delete public posts, and delete public photos.
+  operations:
+  - createPosts
+  - deletePostsByPostGuid
+  - createPhotos
+  - deletePhotosByPhotoGuid
+  - createPostsByPostGuidReshares
+- name: private:read
+  origin: diaspora
+  depends_on:
+  - contacts:read
+  description: >-
+    Read private posts, read private post interactions (likes, comments), and read streams — main
+    stream, aspects stream, mention stream, activity stream, liked stream and commented stream.
+  operations:
+  - getStreamsMain
+  - getStreamsAspects
+  - getStreamsActivity
+  - getStreamsMentions
+  - getStreamsLiked
+  - getStreamsCommented
+- name: private:modify
+  origin: diaspora
+  depends_on:
+  - contacts:read
+  description: >-
+    Create private posts, post photos privately, delete private posts, and delete private photos.
+- name: contacts:read
+  origin: diaspora
+  description: >-
+    Read the aspect list, read aspect membership, read private user profiles of contacts, read
+    contacts of contacts when allowed by the contact's aspect setting, and include contacts hidden
+    from public search in user search results.
+  operations:
+  - getAspects
+  - getAspectsByAspectId
+  - getAspectsByAspectIdContacts
+- name: contacts:modify
+  origin: diaspora
+  description: >-
+    Add new aspects, rename aspects and change aspect properties, delete aspects, and add or remove
+    a person to/from aspects. Also covers blocking and unblocking a user.
+  operations:
+  - createAspects
+  - updateAspectsByAspectId
+  - deleteAspectsByAspectId
+  - createAspectsByAspectIdContacts
+  - deleteAspectsByAspectIdContactsByPersonGuid
+  - createUsersByPersonGuidBlock
+  - deleteUsersByPersonGuidBlock
+- name: conversations
+  origin: diaspora
+  description: >-
+    Gives access to private messaging — create conversations and send private messages.
+  operations:
+  - getConversations
+  - getConversationsByConversationGuid
+  - createConversations
+  - deleteConversationsByConversationGuid
+  - updateConversationsByConversationGuid
+  - getConversationsByConversationGuidMessages
+  - createConversationsByConversationGuidMessages
+- name: interactions
+  origin: diaspora
+  description: >-
+    Create and delete comments, report posts and comments, post and remove likes, subscribe to and
+    mute posts, hide posts from streams, and vote in polls. Read access to the underlying post must
+    also be present (public:read for public posts, private:read for private posts).
+  operations:
+  - createPostsByPostGuidComments
+  - deletePostsByPostGuidCommentsByCommentGuid
+  - createPostsByPostGuidCommentsByCommentGuidReport
+  - createPostsByPostGuidLikes
+  - deletePostsByPostGuidLikes
+  - createPostsByPostGuidCommentsByCommentGuidLikes
+  - deletePostsByPostGuidCommentsByCommentGuidLikes
+  - createPostsByPostGuidReport
+  - createPostsByPostGuidSubscribe
+  - createPostsByPostGuidMute
+  - createPostsByPostGuidHide
+  - createPostsByPostGuidVote
+- name: notifications
+  origin: diaspora
+  description: Gives access to reading notifications.
+  operations:
+  - getNotifications
+  - getNotificationsByNotificationId
+  - updateNotificationsByNotificationId
+- name: tags:read
+  origin: diaspora
+  description: Gives access to reading tag followings and reading the tags stream.
+  operations:
+  - getTagFollowings
+- name: tags:modify
+  origin: diaspora
+  description: Gives access to creation and deletion of tag followings.
+  operations:
+  - createTagFollowings
+  - deleteTagFollowingsByTagName
+
+dependencies:
+- scope: private:read
+  requires:
+  - contacts:read
+- scope: private:modify
+  requires:
+  - contacts:read
+
+enforcement:
+  insufficient_scope_status: 403
+  insufficient_scope_body: none
+  unauthenticated_status: 401
+
+related:
+  authentication: authentication/diaspora-authentication.yml
+  openapi: openapi/diaspora-api-openapi.yml

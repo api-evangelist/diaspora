@@ -1,0 +1,85 @@
+generated: '2026-07-20'
+method: searched
+source: >-
+  Live HTTPS probes of the /.well-known/ namespace on the diaspora* hosts named in apis.yml and in
+  openapi/diaspora-api-openapi.yml servers[]. Probed 2026-07-20.
+description: >-
+  diaspora* is decentralized, so /.well-known/ is served per-pod rather than by the project site.
+  The project site (diasporafoundation.org) publishes nothing under /.well-known/; a running pod
+  (probed here against diaspora.social) publishes the OpenID Connect discovery document that the
+  API depends on, plus a nodeinfo pointer used for version and capability discovery before making
+  API requests.
+
+hosts:
+- host: diaspora.social
+  role: representative diaspora* pod (default server variable in the OpenAPI spec)
+  probes:
+  - path: /.well-known/openid-configuration
+    status: 200
+    content_type: application/json
+    file: well-known/diaspora-openid-configuration.json
+    note: >-
+      OpenID Connect Discovery 1.0 document. Advertises the authorization, token, userinfo,
+      registration and JWKS endpoints plus scopes_supported.
+  - path: /.well-known/nodeinfo
+    status: 200
+    content_type: application/json
+    file: well-known/diaspora-nodeinfo.json
+    note: >-
+      NodeInfo discovery pointer (schema 1.0, 2.0 and 2.1). The API documentation directs clients
+      to use nodeinfo for version discovery before making any API requests.
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+    note: >-
+      Not published; diaspora* exposes OpenID Connect discovery rather than the RFC 8414 OAuth
+      authorization server metadata document.
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+- host: diasporafoundation.org
+  role: project site
+  probes:
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/nodeinfo
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+- host: joindiaspora.com
+  role: legacy pod domain
+  probes:
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/nodeinfo
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+
+security_txt:
+  published: false
+  note: >-
+    No /.well-known/security.txt on any probed host. Security issues are reported through the
+    project issue tracker and Discourse; see lifecycle/diaspora-lifecycle.yml.
+
+summary:
+  openid_configuration: true
+  nodeinfo: true
+  security_txt: false
+  oauth_authorization_server: false
+  api_catalog: false
+  ai_plugin: false

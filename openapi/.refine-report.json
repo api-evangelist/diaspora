@@ -1,0 +1,40 @@
+{
+  "provider": "diaspora",
+  "sources": [
+    "diaspora-aspects-api-openapi.yml",
+    "diaspora-comments-api-openapi.yml",
+    "diaspora-contacts-api-openapi.yml",
+    "diaspora-conversations-api-openapi.yml",
+    "diaspora-likes-api-openapi.yml",
+    "diaspora-notifications-api-openapi.yml",
+    "diaspora-photos-api-openapi.yml",
+    "diaspora-post-interactions-api-openapi.yml",
+    "diaspora-posts-api-openapi.yml",
+    "diaspora-reshares-api-openapi.yml",
+    "diaspora-search-api-openapi.yml",
+    "diaspora-streams-api-openapi.yml",
+    "diaspora-tag-followings-api-openapi.yml",
+    "diaspora-users-api-openapi.yml"
+  ],
+  "outputs": [
+    "diaspora-aspects-api-openapi.yml",
+    "diaspora-comments-api-openapi.yml",
+    "diaspora-contacts-api-openapi.yml",
+    "diaspora-conversations-api-openapi.yml",
+    "diaspora-likes-api-openapi.yml",
+    "diaspora-notifications-api-openapi.yml",
+    "diaspora-photos-api-openapi.yml",
+    "diaspora-post-interactions-api-openapi.yml",
+    "diaspora-posts-api-openapi.yml",
+    "diaspora-reshares-api-openapi.yml",
+    "diaspora-search-api-openapi.yml",
+    "diaspora-streams-api-openapi.yml",
+    "diaspora-tag-followings-api-openapi.yml",
+    "diaspora-users-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

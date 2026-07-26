@@ -1,0 +1,120 @@
+generated: '2026-07-20'
+method: derived
+source: >-
+  Derived from openapi/diaspora-api-openapi.yml (securitySchemes, error schema, pagination), the
+  live https://diaspora.social/.well-known/openid-configuration document, and the compliance
+  claims made in the official diaspora* API documentation
+  (https://diaspora.github.io/api-documentation/authentication.html, /scopes.html, /errors.html,
+  and the index page).
+description: >-
+  Which industry and cross-cutting standards the diaspora* API conforms to. diaspora* is unusually
+  standards-forward on the identity side — it implements three OpenID Connect specifications
+  because decentralization forces it to — and unremarkable on the HTTP-semantics side, where it
+  uses a bespoke error envelope rather than RFC 9457.
+
+standards:
+- id: oauth2
+  conforms: true
+  evidence: >-
+    Access scopes are implemented per OAuth 2.0 (RFC 6749 §3.3), which the documented scope model
+    explicitly cites as its base. Bearer token transmission follows RFC 6750 style.
+- id: oidc
+  conforms: true
+  evidence: >-
+    "diaspora* supports the required set of OpenID Connect Core 1.0 using either the Authorization
+    Code Flow or the Implicit Flow" — authentication.html. ID tokens are signed with RS256;
+    subject types public and pairwise are both supported.
+- id: oidc-discovery
+  conforms: true
+  evidence: >-
+    OpenID Connect Discovery 1.0 is implemented. A live GET of
+    https://diaspora.social/.well-known/openid-configuration returned HTTP 200 with a complete
+    discovery document (see well-known/diaspora-openid-configuration.json).
+- id: oidc-dynamic-client-registration
+  conforms: true
+  evidence: >-
+    OpenID Connect Dynamic Client Registration 1.0 is implemented and is architecturally required
+    — a manual application registration on a single pod is not sufficient in a decentralized
+    network. registration_endpoint is advertised in the live discovery document.
+- id: nodeinfo
+  conforms: true
+  evidence: >-
+    /.well-known/nodeinfo returned HTTP 200 advertising NodeInfo schema 1.0, 2.0 and 2.1. The API
+    documentation directs clients to use nodeinfo for version discovery prior to making requests.
+- id: rfc8288-web-linking
+  conforms: true
+  evidence: >-
+    Paginated responses carry a Link header with rel="first"/"previous"/"next"/"last", per RFC
+    8288.
+- id: iso8601
+  conforms: true
+  evidence: >-
+    Timestamps are documented as "an ISO 8601 time and date with timezone", e.g.
+    2016-02-19T02:13:41.863Z.
+- id: pagination
+  conforms: true
+  evidence: >-
+    Documented pagination via the Link header with per_page (default 20, capped at 100). Note the
+    documentation warns pagination is not uniform: some resources page by timestamp or GUID rather
+    than an integer counter.
+- id: rfc9457
+  conforms: false
+  evidence: >-
+    Errors use a bespoke {"code": <int>, "message": <string>} envelope served as application/json,
+    not application/problem+json. No type URI, no stable machine-readable error identifier.
+- id: json-api
+  conforms: false
+  evidence: >-
+    Responses are plain JSON objects and arrays with no JSON:API document structure (no data /
+    included / links envelope).
+- id: idempotency
+  conforms: false
+  evidence: >-
+    No idempotency key header is documented. Some interaction endpoints return 409/410 to express
+    already-applied state, but this is not a general idempotency mechanism.
+- id: mutual-tls
+  conforms: false
+  evidence: No mutualTLS securityScheme; client authentication is client_secret_* or private_key_jwt.
+- id: fapi
+  conforms: false
+  evidence: >-
+    No FAPI profile claimed or implemented. The Implicit Flow is still offered, which FAPI 2.0
+    forbids.
+- id: scim
+  conforms: false
+  evidence: No SCIM user-provisioning surface; user management is pod-local.
+- id: odata
+  conforms: false
+  evidence: Not an OData service.
+- id: fhir
+  conforms: false
+  evidence: Not a healthcare API.
+- id: psd2
+  conforms: false
+  evidence: Not a payments API.
+- id: asyncapi
+  conforms: false
+  evidence: >-
+    No event, streaming or webhook surface is published for third-party API consumers. Pod-to-pod
+    federation is a separate protocol, not a consumer-facing event API.
+- id: openapi
+  conforms: partial
+  evidence: >-
+    The project does not publish an OpenAPI description. openapi/diaspora-api-openapi.yml in this
+    repo is a faithful API Evangelist generation from the published route documentation, not a
+    first-party artifact.
+
+certifications:
+  published: false
+  note: >-
+    diaspora* is a volunteer-run free software project with no corporate entity operating the
+    network, and publishes no SOC 2, ISO 27001, PCI or comparable certification. Each pod is
+    independently operated, so any compliance posture belongs to the individual podmin rather than
+    to the project. No trust center exists — see security/ probes.
+
+related:
+  authentication: authentication/diaspora-authentication.yml
+  scopes: scopes/diaspora-scopes.yml
+  errors: errors/diaspora-problem-types.yml
+  conventions: conventions/diaspora-conventions.yml
+  well_known: well-known/diaspora-well-known.yml

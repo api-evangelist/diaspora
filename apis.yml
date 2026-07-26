@@ -1,8 +1,30 @@
 aid: diaspora
 name: Diaspora
-description: Diaspora is a company surfaced as a portfolio company of a16z and added to the API Evangelist
-  network as a stub for enrichment. This profile is a lead awaiting the enrichment pipeline.
+description: >-
+  diaspora* is a privacy-aware, decentralized, open source social network, launched in 2010 and
+  released under the AGPL. Rather than running on servers owned by a single company, diaspora* runs
+  as a federated network of independently operated servers called "pods" — anyone can join an
+  existing pod or host their own, and users own their own data. Its "aspects" model lets people
+  organize contacts into groups and control exactly which audience sees each post, alongside
+  hashtags, mentions, reshares, likes, polls, photos and private conversations. Pods federate with
+  each other using the diaspora* federation protocol. Since release 0.9.0.0 the project officially
+  supports third-party applications through a documented JSON REST API at /api/v1 on every pod,
+  authenticated with OpenID Connect Core 1.0 including Dynamic Client Registration — a necessity in
+  a decentralized network where an application cannot pre-register with every pod it might talk to.
 url: https://raw.githubusercontent.com/api-evangelist/diaspora/refs/heads/main/apis.yml
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://diasporafoundation.org/assets/logo-e280790b46ace035cde8657c606b7b8cf6d925c7313a48f3d53a6340f59d5dfd.png
 x-type: company
 x-source: vc-portfolio
 x-backed-by:
@@ -11,12 +33,399 @@ x-tier: stub
 x-tier-reason: portfolio-lead
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-20'
 tags:
 - Company
-apis: []
+- Social
+- Social Networking
+- Decentralized
+- Federated
+- Open Source
+- Privacy
+- Fediverse
+- Messaging
+- OpenID Connect
+common:
+- url: https://diasporafoundation.org/
+  type: Website
+- url: https://diaspora.github.io/api-documentation/
+  type: DeveloperPortal
+- url: https://diaspora.github.io/api-documentation/
+  type: Documentation
+- url: https://diaspora.github.io/api-documentation/
+  type: APIReference
+- url: https://wiki.diasporafoundation.org/Main_Page
+  type: Wiki
+- url: https://diasporafoundation.org/tutorials
+  type: GettingStarted
+- url: https://discourse.diasporafoundation.org/
+  type: Support
+- url: https://blog.diasporafoundation.org/
+  type: Blog
+- url: https://blog.diasporafoundation.org/feed
+  type: BlogRSS
+- url: https://github.com/diaspora
+  type: GitHubOrganization
+- url: https://github.com/diaspora/diaspora/issues
+  type: IssueTracker
+- url: https://diasporafoundation.org/getting_started/sign_up
+  type: SignUp
+- url: https://diasporafoundation.org/get_involved
+  type: GetInvolved
+- url: https://raw.githubusercontent.com/diaspora/diaspora/develop/Changelog.md
+  type: ChangeLog
+- url: packages/diaspora-packages.yml
+  type: Packages
+- url: well-known/diaspora-well-known.yml
+  type: WellKnown
+- url: mcp/diaspora-mcp.yml
+  type: MCPServer
+- url: llms/diaspora-llms.txt
+  type: LLMsTxt
+- url: overlays/diaspora-api-overlay.yaml
+  type: Overlay
+- url: conformance/diaspora-conformance.yml
+  type: Conformance
+- url: errors/diaspora-problem-types.yml
+  type: ErrorCatalog
+- url: lifecycle/diaspora-lifecycle.yml
+  type: Lifecycle
+- url: lifecycle/diaspora-lifecycle.yml
+  type: Deprecation
+- url: scopes/diaspora-scopes.yml
+  type: OAuthScopes
+- url: authentication/diaspora-authentication.yml
+  type: Authentication
+- url: security/diaspora-domain-security.yml
+  type: DomainSecurity
+- url: security/diaspora-vulnerability-disclosure.yml
+  type: VulnerabilityDisclosure
+- url: security/diaspora-vulnerability-disclosure.yml
+  type: Security
+- url: conventions/diaspora-conventions.yml
+  type: Conventions
+- url: changelog/diaspora-changelog.yml
+  type: ChangeLog
+- url: data-model/diaspora-data-model.yml
+  type: DataModel
+- url: skills/_index.yml
+  type: AgentSkill
+apis:
+- aid: diaspora:diaspora-aspects-api
+  name: Diaspora Aspects API
+  description: The Aspects API from Diaspora — 2 operation(s) for aspects.
+  humanURL: https://diaspora.github.io/api-documentation/
+  baseURL: https://diaspora.social/api/v1
+  tags:
+  - Aspects
+  properties:
+  - type: OpenAPI
+    url: openapi/diaspora-aspects-api-openapi.yml
+  - type: Documentation
+    url: https://diaspora.github.io/api-documentation/
+  - type: APIReference
+    url: https://diaspora.github.io/api-documentation/
+  - type: Authentication
+    url: https://diaspora.github.io/api-documentation/authentication.html
+  - type: OAuthScopes
+    url: https://diaspora.github.io/api-documentation/scopes.html
+  - type: ErrorCatalog
+    url: https://diaspora.github.io/api-documentation/errors.html
+  - type: SourceCode
+    url: https://github.com/diaspora/api-documentation
+- aid: diaspora:diaspora-comments-api
+  name: Diaspora Comments API
+  description: The Comments API from Diaspora — 3 operation(s) for comments.
+  humanURL: https://diaspora.github.io/api-documentation/
+  baseURL: https://diaspora.social/api/v1
+  tags:
+  - Comments
+  properties:
+  - type: OpenAPI
+    url: openapi/diaspora-comments-api-openapi.yml
+  - type: Documentation
+    url: https://diaspora.github.io/api-documentation/
+  - type: APIReference
+    url: https://diaspora.github.io/api-documentation/
+  - type: Authentication
+    url: https://diaspora.github.io/api-documentation/authentication.html
+  - type: OAuthScopes
+    url: https://diaspora.github.io/api-documentation/scopes.html
+  - type: ErrorCatalog
+    url: https://diaspora.github.io/api-documentation/errors.html
+  - type: SourceCode
+    url: https://github.com/diaspora/api-documentation
+- aid: diaspora:diaspora-contacts-api
+  name: Diaspora Contacts API
+  description: The Contacts API from Diaspora — 2 operation(s) for contacts.
+  humanURL: https://diaspora.github.io/api-documentation/
+  baseURL: https://diaspora.social/api/v1
+  tags:
+  - Contacts
+  properties:
+  - type: OpenAPI
+    url: openapi/diaspora-contacts-api-openapi.yml
+  - type: Documentation
+    url: https://diaspora.github.io/api-documentation/
+  - type: APIReference
+    url: https://diaspora.github.io/api-documentation/
+  - type: Authentication
+    url: https://diaspora.github.io/api-documentation/authentication.html
+  - type: OAuthScopes
+    url: https://diaspora.github.io/api-documentation/scopes.html
+  - type: ErrorCatalog
+    url: https://diaspora.github.io/api-documentation/errors.html
+  - type: SourceCode
+    url: https://github.com/diaspora/api-documentation
+- aid: diaspora:diaspora-conversations-api
+  name: Diaspora Conversations API
+  description: The Conversations API from Diaspora — 3 operation(s) for conversations.
+  humanURL: https://diaspora.github.io/api-documentation/
+  baseURL: https://diaspora.social/api/v1
+  tags:
+  - Conversations
+  properties:
+  - type: OpenAPI
+    url: openapi/diaspora-conversations-api-openapi.yml
+  - type: Documentation
+    url: https://diaspora.github.io/api-documentation/
+  - type: APIReference
+    url: https://diaspora.github.io/api-documentation/
+  - type: Authentication
+    url: https://diaspora.github.io/api-documentation/authentication.html
+  - type: OAuthScopes
+    url: https://diaspora.github.io/api-documentation/scopes.html
+  - type: ErrorCatalog
+    url: https://diaspora.github.io/api-documentation/errors.html
+  - type: SourceCode
+    url: https://github.com/diaspora/api-documentation
+- aid: diaspora:diaspora-likes-api
+  name: Diaspora Likes API
+  description: The Likes API from Diaspora — 2 operation(s) for likes.
+  humanURL: https://diaspora.github.io/api-documentation/
+  baseURL: https://diaspora.social/api/v1
+  tags:
+  - Likes
+  properties:
+  - type: OpenAPI
+    url: openapi/diaspora-likes-api-openapi.yml
+  - type: Documentation
+    url: https://diaspora.github.io/api-documentation/
+  - type: APIReference
+    url: https://diaspora.github.io/api-documentation/
+  - type: Authentication
+    url: https://diaspora.github.io/api-documentation/authentication.html
+  - type: OAuthScopes
+    url: https://diaspora.github.io/api-documentation/scopes.html
+  - type: ErrorCatalog
+    url: https://diaspora.github.io/api-documentation/errors.html
+  - type: SourceCode
+    url: https://github.com/diaspora/api-documentation
+- aid: diaspora:diaspora-notifications-api
+  name: Diaspora Notifications API
+  description: The Notifications API from Diaspora — 2 operation(s) for notifications.
+  humanURL: https://diaspora.github.io/api-documentation/
+  baseURL: https://diaspora.social/api/v1
+  tags:
+  - Notifications
+  properties:
+  - type: OpenAPI
+    url: openapi/diaspora-notifications-api-openapi.yml
+  - type: Documentation
+    url: https://diaspora.github.io/api-documentation/
+  - type: APIReference
+    url: https://diaspora.github.io/api-documentation/
+  - type: Authentication
+    url: https://diaspora.github.io/api-documentation/authentication.html
+  - type: OAuthScopes
+    url: https://diaspora.github.io/api-documentation/scopes.html
+  - type: ErrorCatalog
+    url: https://diaspora.github.io/api-documentation/errors.html
+  - type: SourceCode
+    url: https://github.com/diaspora/api-documentation
+- aid: diaspora:diaspora-photos-api
+  name: Diaspora Photos API
+  description: The Photos API from Diaspora — 2 operation(s) for photos.
+  humanURL: https://diaspora.github.io/api-documentation/
+  baseURL: https://diaspora.social/api/v1
+  tags:
+  - Photos
+  properties:
+  - type: OpenAPI
+    url: openapi/diaspora-photos-api-openapi.yml
+  - type: Documentation
+    url: https://diaspora.github.io/api-documentation/
+  - type: APIReference
+    url: https://diaspora.github.io/api-documentation/
+  - type: Authentication
+    url: https://diaspora.github.io/api-documentation/authentication.html
+  - type: OAuthScopes
+    url: https://diaspora.github.io/api-documentation/scopes.html
+  - type: ErrorCatalog
+    url: https://diaspora.github.io/api-documentation/errors.html
+  - type: SourceCode
+    url: https://github.com/diaspora/api-documentation
+- aid: diaspora:diaspora-post-interactions-api
+  name: Diaspora Post interactions API
+  description: The Post interactions API from Diaspora — 5 operation(s) for post interactions.
+  humanURL: https://diaspora.github.io/api-documentation/
+  baseURL: https://diaspora.social/api/v1
+  tags:
+  - Post interactions
+  properties:
+  - type: OpenAPI
+    url: openapi/diaspora-post-interactions-api-openapi.yml
+  - type: Documentation
+    url: https://diaspora.github.io/api-documentation/
+  - type: APIReference
+    url: https://diaspora.github.io/api-documentation/
+  - type: Authentication
+    url: https://diaspora.github.io/api-documentation/authentication.html
+  - type: OAuthScopes
+    url: https://diaspora.github.io/api-documentation/scopes.html
+  - type: ErrorCatalog
+    url: https://diaspora.github.io/api-documentation/errors.html
+  - type: SourceCode
+    url: https://github.com/diaspora/api-documentation
+- aid: diaspora:diaspora-posts-api
+  name: Diaspora Posts API
+  description: The Posts API from Diaspora — 2 operation(s) for posts.
+  humanURL: https://diaspora.github.io/api-documentation/
+  baseURL: https://diaspora.social/api/v1
+  tags:
+  - Posts
+  properties:
+  - type: OpenAPI
+    url: openapi/diaspora-posts-api-openapi.yml
+  - type: Documentation
+    url: https://diaspora.github.io/api-documentation/
+  - type: APIReference
+    url: https://diaspora.github.io/api-documentation/
+  - type: Authentication
+    url: https://diaspora.github.io/api-documentation/authentication.html
+  - type: OAuthScopes
+    url: https://diaspora.github.io/api-documentation/scopes.html
+  - type: ErrorCatalog
+    url: https://diaspora.github.io/api-documentation/errors.html
+  - type: SourceCode
+    url: https://github.com/diaspora/api-documentation
+- aid: diaspora:diaspora-reshares-api
+  name: Diaspora Reshares API
+  description: The Reshares API from Diaspora — 1 operation(s) for reshares.
+  humanURL: https://diaspora.github.io/api-documentation/
+  baseURL: https://diaspora.social/api/v1
+  tags:
+  - Reshares
+  properties:
+  - type: OpenAPI
+    url: openapi/diaspora-reshares-api-openapi.yml
+  - type: Documentation
+    url: https://diaspora.github.io/api-documentation/
+  - type: APIReference
+    url: https://diaspora.github.io/api-documentation/
+  - type: Authentication
+    url: https://diaspora.github.io/api-documentation/authentication.html
+  - type: OAuthScopes
+    url: https://diaspora.github.io/api-documentation/scopes.html
+  - type: ErrorCatalog
+    url: https://diaspora.github.io/api-documentation/errors.html
+  - type: SourceCode
+    url: https://github.com/diaspora/api-documentation
+- aid: diaspora:diaspora-search-api
+  name: Diaspora Search API
+  description: The Search API from Diaspora — 3 operation(s) for search.
+  humanURL: https://diaspora.github.io/api-documentation/
+  baseURL: https://diaspora.social/api/v1
+  tags:
+  - Search
+  properties:
+  - type: OpenAPI
+    url: openapi/diaspora-search-api-openapi.yml
+  - type: Documentation
+    url: https://diaspora.github.io/api-documentation/
+  - type: APIReference
+    url: https://diaspora.github.io/api-documentation/
+  - type: Authentication
+    url: https://diaspora.github.io/api-documentation/authentication.html
+  - type: OAuthScopes
+    url: https://diaspora.github.io/api-documentation/scopes.html
+  - type: ErrorCatalog
+    url: https://diaspora.github.io/api-documentation/errors.html
+  - type: SourceCode
+    url: https://github.com/diaspora/api-documentation
+- aid: diaspora:diaspora-streams-api
+  name: Diaspora Streams API
+  description: The Streams API from Diaspora — 7 operation(s) for streams.
+  humanURL: https://diaspora.github.io/api-documentation/
+  baseURL: https://diaspora.social/api/v1
+  tags:
+  - Streams
+  properties:
+  - type: OpenAPI
+    url: openapi/diaspora-streams-api-openapi.yml
+  - type: Documentation
+    url: https://diaspora.github.io/api-documentation/
+  - type: APIReference
+    url: https://diaspora.github.io/api-documentation/
+  - type: Authentication
+    url: https://diaspora.github.io/api-documentation/authentication.html
+  - type: OAuthScopes
+    url: https://diaspora.github.io/api-documentation/scopes.html
+  - type: ErrorCatalog
+    url: https://diaspora.github.io/api-documentation/errors.html
+  - type: SourceCode
+    url: https://github.com/diaspora/api-documentation
+- aid: diaspora:diaspora-tag-followings-api
+  name: Diaspora Tag followings API
+  description: The Tag followings API from Diaspora — 2 operation(s) for tag followings.
+  humanURL: https://diaspora.github.io/api-documentation/
+  baseURL: https://diaspora.social/api/v1
+  tags:
+  - Tag followings
+  properties:
+  - type: OpenAPI
+    url: openapi/diaspora-tag-followings-api-openapi.yml
+  - type: Documentation
+    url: https://diaspora.github.io/api-documentation/
+  - type: APIReference
+    url: https://diaspora.github.io/api-documentation/
+  - type: Authentication
+    url: https://diaspora.github.io/api-documentation/authentication.html
+  - type: OAuthScopes
+    url: https://diaspora.github.io/api-documentation/scopes.html
+  - type: ErrorCatalog
+    url: https://diaspora.github.io/api-documentation/errors.html
+  - type: SourceCode
+    url: https://github.com/diaspora/api-documentation
+- aid: diaspora:diaspora-users-api
+  name: Diaspora Users API
+  description: The Users API from Diaspora — 5 operation(s) for users.
+  humanURL: https://diaspora.github.io/api-documentation/
+  baseURL: https://diaspora.social/api/v1
+  tags:
+  - Users
+  properties:
+  - type: OpenAPI
+    url: openapi/diaspora-users-api-openapi.yml
+  - type: Documentation
+    url: https://diaspora.github.io/api-documentation/
+  - type: APIReference
+    url: https://diaspora.github.io/api-documentation/
+  - type: Authentication
+    url: https://diaspora.github.io/api-documentation/authentication.html
+  - type: OAuthScopes
+    url: https://diaspora.github.io/api-documentation/scopes.html
+  - type: ErrorCatalog
+    url: https://diaspora.github.io/api-documentation/errors.html
+  - type: SourceCode
+    url: https://github.com/diaspora/api-documentation
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+x-enrichment:
+  date: '2026-07-20'
+  status: enriched
+  artifacts_added: 23
+  pass: local-v1
