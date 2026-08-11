@@ -46,6 +46,13 @@ tags:
 - Messaging
 - OpenID Connect
 common:
+- type: IssueTracker
+  url: https://github.com/diaspora/api-documentation/issues
+- type: ContributionGuide
+  url: https://github.com/diaspora/api-documentation/blob/master/CONTRIBUTING.md
+- type: License
+  name: CC-BY-SA-4.0
+  url: https://github.com/diaspora/api-documentation/blob/master/LICENSE
 - url: https://diasporafoundation.org/
   type: Website
 - url: https://diaspora.github.io/api-documentation/
