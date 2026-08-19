@@ -1,0 +1,71 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "diaspora* Aspects Posts API",
+    "version": "1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Posts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Publish a post",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{pod}/api/v1/posts",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Required API scope: public:modify or private:modify depending on the post visibility"
+        },
+        {
+          "info": {
+            "name": "Get information about a single post",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{pod}/api/v1/posts/:post_guid",
+            "params": [
+              {
+                "name": "post_guid",
+                "value": "",
+                "type": "path",
+                "description": "GUID of the post."
+              }
+            ]
+          },
+          "docs": "Required API scope: public:read or private:read depending on the post visibility"
+        },
+        {
+          "info": {
+            "name": "Delete a post",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{pod}/api/v1/posts/:post_guid",
+            "params": [
+              {
+                "name": "post_guid",
+                "value": "",
+                "type": "path",
+                "description": "GUID of the post."
+              }
+            ]
+          },
+          "docs": "Required API scope: public:modify or private:modify depending on the post visibility"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

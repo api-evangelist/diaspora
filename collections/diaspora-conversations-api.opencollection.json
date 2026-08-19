@@ -1,0 +1,135 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "diaspora* Aspects Conversations API",
+    "version": "1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Conversations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get list of all conversations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{pod}/api/v1/conversations"
+          },
+          "docs": "Required API scope: conversations"
+        },
+        {
+          "info": {
+            "name": "Create new conversation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{pod}/api/v1/conversations"
+          },
+          "docs": "Required API scope: conversations"
+        },
+        {
+          "info": {
+            "name": "Get information about a single conversation",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{pod}/api/v1/conversations/:conversation_guid",
+            "params": [
+              {
+                "name": "conversation_guid",
+                "value": "",
+                "type": "path",
+                "description": "GUID of the conversation."
+              }
+            ]
+          },
+          "docs": "Required API scope: conversations"
+        },
+        {
+          "info": {
+            "name": "Mark a conversation as read",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{pod}/api/v1/conversations/:conversation_guid",
+            "params": [
+              {
+                "name": "conversation_guid",
+                "value": "",
+                "type": "path",
+                "description": "GUID of the conversation."
+              }
+            ]
+          },
+          "docs": "Required API scope: conversations"
+        },
+        {
+          "info": {
+            "name": "Ignore and hide a conversation",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{pod}/api/v1/conversations/:conversation_guid",
+            "params": [
+              {
+                "name": "conversation_guid",
+                "value": "",
+                "type": "path",
+                "description": "GUID of the conversation."
+              }
+            ]
+          },
+          "docs": "Required API scope: conversations"
+        },
+        {
+          "info": {
+            "name": "List messages in a conversation",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{pod}/api/v1/conversations/:conversation_guid/messages",
+            "params": [
+              {
+                "name": "conversation_guid",
+                "value": "",
+                "type": "path",
+                "description": "GUID of the conversation."
+              }
+            ]
+          },
+          "docs": "Required API scope: conversations"
+        },
+        {
+          "info": {
+            "name": "Post new message to a conversation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{pod}/api/v1/conversations/:conversation_guid/messages",
+            "params": [
+              {
+                "name": "conversation_guid",
+                "value": "",
+                "type": "path",
+                "description": "GUID of the conversation."
+              }
+            ]
+          },
+          "docs": "Required API scope: conversations"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

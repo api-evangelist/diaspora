@@ -1,0 +1,85 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "diaspora* Aspects Contacts API",
+    "version": "1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Contacts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get list of contacts in an aspect",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{pod}/api/v1/aspects/:aspect_id/contacts",
+            "params": [
+              {
+                "name": "aspect_id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the aspect."
+              }
+            ]
+          },
+          "docs": "Required API scope: contacts:read"
+        },
+        {
+          "info": {
+            "name": "Add a user to an aspect",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{pod}/api/v1/aspects/:aspect_id/contacts",
+            "params": [
+              {
+                "name": "aspect_id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the aspect."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Required API scope: contacts:modify"
+        },
+        {
+          "info": {
+            "name": "Remove a user from an aspect",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{pod}/api/v1/aspects/:aspect_id/contacts/:person_guid",
+            "params": [
+              {
+                "name": "aspect_id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the aspect."
+              },
+              {
+                "name": "person_guid",
+                "value": "",
+                "type": "path",
+                "description": "GUID of the person."
+              }
+            ]
+          },
+          "docs": "Required API scope: contacts:modify"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

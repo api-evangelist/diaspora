@@ -1,0 +1,78 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "diaspora* Aspects Photos API",
+    "version": "1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Photos",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get photos uploaded by the current user",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{pod}/api/v1/photos"
+          },
+          "docs": "Required API scope: public:read"
+        },
+        {
+          "info": {
+            "name": "Upload photo",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{pod}/api/v1/photos"
+          },
+          "docs": "Required API scope: public:modify or private:modify depending on the photo visibility"
+        },
+        {
+          "info": {
+            "name": "Get information about a single photo",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{pod}/api/v1/photos/:photo_guid",
+            "params": [
+              {
+                "name": "photo_guid",
+                "value": "",
+                "type": "path",
+                "description": "GUID of the photo."
+              }
+            ]
+          },
+          "docs": "Required API scope: public:read or private:read depending on the photo visibility"
+        },
+        {
+          "info": {
+            "name": "Delete a photo",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{pod}/api/v1/photos/:photo_guid",
+            "params": [
+              {
+                "name": "photo_guid",
+                "value": "",
+                "type": "path",
+                "description": "GUID of the photo."
+              }
+            ]
+          },
+          "docs": "Required API scope: public:modify or private:modify depending on the photo visibility"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

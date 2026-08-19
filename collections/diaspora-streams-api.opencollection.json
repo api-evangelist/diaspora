@@ -1,0 +1,95 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "diaspora* Aspects Streams API",
+    "version": "1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Streams",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get activity stream",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{pod}/api/v1/streams/activity"
+          },
+          "docs": "Required API scope: private:read"
+        },
+        {
+          "info": {
+            "name": "Get aspect stream",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{pod}/api/v1/streams/aspects"
+          },
+          "docs": "Required API scope: private:read"
+        },
+        {
+          "info": {
+            "name": "Get commented stream",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{pod}/api/v1/streams/commented"
+          },
+          "docs": "Required API scope: private:read"
+        },
+        {
+          "info": {
+            "name": "Get liked stream",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{pod}/api/v1/streams/liked"
+          },
+          "docs": "Required API scope: private:read"
+        },
+        {
+          "info": {
+            "name": "Get the main stream",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{pod}/api/v1/streams/main"
+          },
+          "docs": "Required API scope: private:read"
+        },
+        {
+          "info": {
+            "name": "Get mentions stream",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{pod}/api/v1/streams/mentions"
+          },
+          "docs": "Required API scope: private:read"
+        },
+        {
+          "info": {
+            "name": "Get tag stream",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{pod}/api/v1/streams/tags"
+          },
+          "docs": "Get tag stream"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

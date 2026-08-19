@@ -1,0 +1,2030 @@
+{
+  "item": [
+    {
+      "id": "0fe30144-6689-4c98-bc7d-6a04ac4e9139",
+      "name": "Post interactions",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "0e1fe9af-f936-43ca-8d1c-1629030acc71",
+          "name": "Hide or unhide a post",
+          "request": {
+            "name": "Hide or unhide a post",
+            "description": {
+              "content": "Required API scope: interactions. Read access to the post must be present too (public:read for public posts and private:read for private posts).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "posts",
+                ":post_guid",
+                "hide"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "post_guid",
+                  "description": "(Required) GUID of the post."
+                },
+                {
+                  "description": "Hostname of the diaspora* pod to talk to.",
+                  "type": "any",
+                  "value": "{{pod}}",
+                  "key": "pod"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"hide\": \"<boolean>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "4db67bde-e027-4fa0-a187-7383b09bd336",
+              "name": "No Content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "posts",
+                    ":post_guid",
+                    "hide"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "post_guid",
+                      "description": "(Required) GUID of the post."
+                    },
+                    {
+                      "description": "Hostname of the diaspora* pod to talk to.",
+                      "type": "any",
+                      "value": "{{pod}}",
+                      "key": "pod"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"hide\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "841551b9-e559-4dc6-bf3a-6d4c91f89d6c",
+              "name": "The API request requires authorization",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "posts",
+                    ":post_guid",
+                    "hide"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "post_guid",
+                      "description": "(Required) GUID of the post."
+                    },
+                    {
+                      "description": "Hostname of the diaspora* pod to talk to.",
+                      "type": "any",
+                      "value": "{{pod}}",
+                      "key": "pod"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"hide\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 404,\n  \"message\": \"Requested entity wasn't found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e2f0582d-2b18-44c8-b5d2-7fdf1d10ed8c",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "posts",
+                    ":post_guid",
+                    "hide"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "post_guid",
+                      "description": "(Required) GUID of the post."
+                    },
+                    {
+                      "description": "Hostname of the diaspora* pod to talk to.",
+                      "type": "any",
+                      "value": "{{pod}}",
+                      "key": "pod"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"hide\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 404,\n  \"message\": \"Requested entity wasn't found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7d052847-e8d9-4934-83e5-9d5460be747e",
+              "name": "Post with provided guid could not be found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "posts",
+                    ":post_guid",
+                    "hide"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "post_guid",
+                      "description": "(Required) GUID of the post."
+                    },
+                    {
+                      "description": "Hostname of the diaspora* pod to talk to.",
+                      "type": "any",
+                      "value": "{{pod}}",
+                      "key": "pod"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"hide\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 404,\n  \"message\": \"Requested entity wasn't found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f3bee9cb-3a55-4345-ad4a-3595e1c46229",
+              "name": "Post is already hidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "posts",
+                    ":post_guid",
+                    "hide"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "post_guid",
+                      "description": "(Required) GUID of the post."
+                    },
+                    {
+                      "description": "Hostname of the diaspora* pod to talk to.",
+                      "type": "any",
+                      "value": "{{pod}}",
+                      "key": "pod"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"hide\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 404,\n  \"message\": \"Requested entity wasn't found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6f1b8f00-df0a-4ae8-bddc-c397459fcec9",
+              "name": "Post is not hidden",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "posts",
+                    ":post_guid",
+                    "hide"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "post_guid",
+                      "description": "(Required) GUID of the post."
+                    },
+                    {
+                      "description": "Hostname of the diaspora* pod to talk to.",
+                      "type": "any",
+                      "value": "{{pod}}",
+                      "key": "pod"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"hide\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Gone",
+              "code": 410,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 404,\n  \"message\": \"Requested entity wasn't found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d2c13d36-aeb9-4c40-91d7-d526c53fbc0e",
+              "name": "Request invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "posts",
+                    ":post_guid",
+                    "hide"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "post_guid",
+                      "description": "(Required) GUID of the post."
+                    },
+                    {
+                      "description": "Hostname of the diaspora* pod to talk to.",
+                      "type": "any",
+                      "value": "{{pod}}",
+                      "key": "pod"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"hide\": \"<boolean>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 404,\n  \"message\": \"Requested entity wasn't found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "45721713-1864-4d6a-9cab-58bff0e87706",
+          "name": "Mute (unsubscribe from a) a post",
+          "request": {
+            "name": "Mute (unsubscribe from a) a post",
+            "description": {
+              "content": "Required API scope: interactions. Read access to the post must be present too (public:read for public posts and private:read for private posts).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "posts",
+                ":post_guid",
+                "mute"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "post_guid",
+                  "description": "(Required) GUID of the post."
+                },
+                {
+                  "description": "Hostname of the diaspora* pod to talk to.",
+                  "type": "any",
+                  "value": "{{pod}}",
+                  "key": "pod"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST"
+          },
+          "response": [
+            {
+              "id": "be5697bd-5be0-4c98-a226-e9540801eb81",
+              "name": "No Content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "posts",
+                    ":post_guid",
+                    "mute"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "post_guid",
+                      "description": "(Required) GUID of the post."
+                    },
+                    {
+                      "description": "Hostname of the diaspora* pod to talk to.",
+                      "type": "any",
+                      "value": "{{pod}}",
+                      "key": "pod"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "8e57d8a6-5f9d-404c-b3f4-e487f6532a8e",
+              "name": "The API request requires authorization",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "posts",
+                    ":post_guid",
+                    "mute"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "post_guid",
+                      "description": "(Required) GUID of the post."
+                    },
+                    {
+                      "description": "Hostname of the diaspora* pod to talk to.",
+                      "type": "any",
+                      "value": "{{pod}}",
+                      "key": "pod"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 404,\n  \"message\": \"Requested entity wasn't found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e6c3abc3-0ed9-4ab8-bff2-8f4335e7ef8d",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "posts",
+                    ":post_guid",
+                    "mute"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "post_guid",
+                      "description": "(Required) GUID of the post."
+                    },
+                    {
+                      "description": "Hostname of the diaspora* pod to talk to.",
+                      "type": "any",
+                      "value": "{{pod}}",
+                      "key": "pod"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 404,\n  \"message\": \"Requested entity wasn't found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5ca878f0-a788-4fbd-8a6f-eeb14b736dd2",
+              "name": "Post with provided guid could not be found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "posts",
+                    ":post_guid",
+                    "mute"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "post_guid",
+                      "description": "(Required) GUID of the post."
+                    },
+                    {
+                      "description": "Hostname of the diaspora* pod to talk to.",
+                      "type": "any",
+                      "value": "{{pod}}",
+                      "key": "pod"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 404,\n  \"message\": \"Requested entity wasn't found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "71a37227-341e-44c1-8648-3bbb0959c387",
+              "name": "Was not subscribed to this post",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "posts",
+                    ":post_guid",
+                    "mute"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "post_guid",
+                      "description": "(Required) GUID of the post."
+                    },
+                    {
+                      "description": "Hostname of the diaspora* pod to talk to.",
+                      "type": "any",
+                      "value": "{{pod}}",
+                      "key": "pod"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Gone",
+              "code": 410,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 404,\n  \"message\": \"Requested entity wasn't found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b1ee4021-04cb-4504-984d-2a6626b0fbaa",
+              "name": "Request invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "posts",
+                    ":post_guid",
+                    "mute"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "post_guid",
+                      "description": "(Required) GUID of the post."
+                    },
+                    {
+                      "description": "Hostname of the diaspora* pod to talk to.",
+                      "type": "any",
+                      "value": "{{pod}}",
+                      "key": "pod"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 404,\n  \"message\": \"Requested entity wasn't found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6c708aad-194e-4eef-b869-b4ecb65fb0c1",
+          "name": "Report a post",
+          "request": {
+            "name": "Report a post",
+            "description": {
+              "content": "Required API scope: interactions. Read access to the post must be present too (public:read for public posts and private:read for private posts).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "posts",
+                ":post_guid",
+                "report"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "post_guid",
+                  "description": "(Required) GUID of the post."
+                },
+                {
+                  "description": "Hostname of the diaspora* pod to talk to.",
+                  "type": "any",
+                  "value": "{{pod}}",
+                  "key": "pod"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reason\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "7c74eb36-25d6-44c1-8322-2f0b633ee73d",
+              "name": "No Content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "posts",
+                    ":post_guid",
+                    "report"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "post_guid",
+                      "description": "(Required) GUID of the post."
+                    },
+                    {
+                      "description": "Hostname of the diaspora* pod to talk to.",
+                      "type": "any",
+                      "value": "{{pod}}",
+                      "key": "pod"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reason\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "d82ef632-dd8f-44aa-9f15-7390bfd5c2d2",
+              "name": "The API request requires authorization",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "posts",
+                    ":post_guid",
+                    "report"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "post_guid",
+                      "description": "(Required) GUID of the post."
+                    },
+                    {
+                      "description": "Hostname of the diaspora* pod to talk to.",
+                      "type": "any",
+                      "value": "{{pod}}",
+                      "key": "pod"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reason\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 404,\n  \"message\": \"Requested entity wasn't found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "da9849de-6e03-430c-a297-caed062dbfd2",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "posts",
+                    ":post_guid",
+                    "report"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "post_guid",
+                      "description": "(Required) GUID of the post."
+                    },
+                    {
+                      "description": "Hostname of the diaspora* pod to talk to.",
+                      "type": "any",
+                      "value": "{{pod}}",
+                      "key": "pod"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reason\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 404,\n  \"message\": \"Requested entity wasn't found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "026930dc-d1de-44fc-b157-93f22a0080e7",
+              "name": "Post with provided guid could not be found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "posts",
+                    ":post_guid",
+                    "report"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "post_guid",
+                      "description": "(Required) GUID of the post."
+                    },
+                    {
+                      "description": "Hostname of the diaspora* pod to talk to.",
+                      "type": "any",
+                      "value": "{{pod}}",
+                      "key": "pod"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reason\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 404,\n  \"message\": \"Requested entity wasn't found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d2c03b8d-9b18-495b-aab8-7c7a7b36e7a0",
+              "name": "Post has already been reported",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "posts",
+                    ":post_guid",
+                    "report"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "post_guid",
+                      "description": "(Required) GUID of the post."
+                    },
+                    {
+                      "description": "Hostname of the diaspora* pod to talk to.",
+                      "type": "any",
+                      "value": "{{pod}}",
+                      "key": "pod"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reason\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 404,\n  \"message\": \"Requested entity wasn't found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e018f529-564c-4026-b4e0-8e48be2bba26",
+              "name": "Request invalid, such as a missing reason",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "posts",
+                    ":post_guid",
+                    "report"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "post_guid",
+                      "description": "(Required) GUID of the post."
+                    },
+                    {
+                      "description": "Hostname of the diaspora* pod to talk to.",
+                      "type": "any",
+                      "value": "{{pod}}",
+                      "key": "pod"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reason\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 404,\n  \"message\": \"Requested entity wasn't found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "586b0899-9855-4582-860b-5674c9827517",
+          "name": "Subscribe to a post",
+          "request": {
+            "name": "Subscribe to a post",
+            "description": {
+              "content": "Required API scope: interactions. Read access to the post must be present too (public:read for public posts and private:read for private posts).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "posts",
+                ":post_guid",
+                "subscribe"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "post_guid",
+                  "description": "(Required) GUID of the post."
+                },
+                {
+                  "description": "Hostname of the diaspora* pod to talk to.",
+                  "type": "any",
+                  "value": "{{pod}}",
+                  "key": "pod"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST"
+          },
+          "response": [
+            {
+              "id": "8ab6448c-bdf9-4721-911e-2243c1dbc0b6",
+              "name": "No Content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "posts",
+                    ":post_guid",
+                    "subscribe"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "post_guid",
+                      "description": "(Required) GUID of the post."
+                    },
+                    {
+                      "description": "Hostname of the diaspora* pod to talk to.",
+                      "type": "any",
+                      "value": "{{pod}}",
+                      "key": "pod"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "24ec83c6-7d5a-4093-a996-61dabc2f6857",
+              "name": "The API request requires authorization",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "posts",
+                    ":post_guid",
+                    "subscribe"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "post_guid",
+                      "description": "(Required) GUID of the post."
+                    },
+                    {
+                      "description": "Hostname of the diaspora* pod to talk to.",
+                      "type": "any",
+                      "value": "{{pod}}",
+                      "key": "pod"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 404,\n  \"message\": \"Requested entity wasn't found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "955bbb9c-6e6b-47fc-a762-672e78d66c2a",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "posts",
+                    ":post_guid",
+                    "subscribe"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "post_guid",
+                      "description": "(Required) GUID of the post."
+                    },
+                    {
+                      "description": "Hostname of the diaspora* pod to talk to.",
+                      "type": "any",
+                      "value": "{{pod}}",
+                      "key": "pod"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 404,\n  \"message\": \"Requested entity wasn't found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "37f03b79-2f27-4329-a0e5-e2df164271e8",
+              "name": "Post with provided guid could not be found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "posts",
+                    ":post_guid",
+                    "subscribe"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "post_guid",
+                      "description": "(Required) GUID of the post."
+                    },
+                    {
+                      "description": "Hostname of the diaspora* pod to talk to.",
+                      "type": "any",
+                      "value": "{{pod}}",
+                      "key": "pod"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 404,\n  \"message\": \"Requested entity wasn't found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "aa890c41-2c35-42e7-a005-87cae317c2f2",
+              "name": "Already subscribed",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "posts",
+                    ":post_guid",
+                    "subscribe"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "post_guid",
+                      "description": "(Required) GUID of the post."
+                    },
+                    {
+                      "description": "Hostname of the diaspora* pod to talk to.",
+                      "type": "any",
+                      "value": "{{pod}}",
+                      "key": "pod"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 404,\n  \"message\": \"Requested entity wasn't found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d00d4ad4-5a28-45c9-802f-1d48bef4acbf",
+              "name": "Request invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "posts",
+                    ":post_guid",
+                    "subscribe"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "post_guid",
+                      "description": "(Required) GUID of the post."
+                    },
+                    {
+                      "description": "Hostname of the diaspora* pod to talk to.",
+                      "type": "any",
+                      "value": "{{pod}}",
+                      "key": "pod"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 404,\n  \"message\": \"Requested entity wasn't found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "65ddcb71-768b-4db9-8699-6521b2d76c44",
+          "name": "Vote on poll",
+          "request": {
+            "name": "Vote on poll",
+            "description": {},
+            "url": {
+              "path": [
+                "posts",
+                ":post_guid",
+                "vote"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "post_guid",
+                  "description": "(Required) GUID of the post."
+                },
+                {
+                  "description": "Hostname of the diaspora* pod to talk to.",
+                  "type": "any",
+                  "value": "{{pod}}",
+                  "key": "pod"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"poll_answer\": \"<integer>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "36adfd72-ee4a-45a5-b419-a011f3326abf",
+              "name": "No Content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "posts",
+                    ":post_guid",
+                    "vote"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "post_guid",
+                      "description": "(Required) GUID of the post."
+                    },
+                    {
+                      "description": "Hostname of the diaspora* pod to talk to.",
+                      "type": "any",
+                      "value": "{{pod}}",
+                      "key": "pod"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"poll_answer\": \"<integer>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "bebdb624-6b07-43bd-91e2-4c91f5ae5e3e",
+              "name": "The API request requires authorization",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "posts",
+                    ":post_guid",
+                    "vote"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "post_guid",
+                      "description": "(Required) GUID of the post."
+                    },
+                    {
+                      "description": "Hostname of the diaspora* pod to talk to.",
+                      "type": "any",
+                      "value": "{{pod}}",
+                      "key": "pod"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"poll_answer\": \"<integer>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 404,\n  \"message\": \"Requested entity wasn't found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e635922a-b6af-409f-8f4c-25f793fd1f23",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "posts",
+                    ":post_guid",
+                    "vote"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "post_guid",
+                      "description": "(Required) GUID of the post."
+                    },
+                    {
+                      "description": "Hostname of the diaspora* pod to talk to.",
+                      "type": "any",
+                      "value": "{{pod}}",
+                      "key": "pod"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"poll_answer\": \"<integer>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 404,\n  \"message\": \"Requested entity wasn't found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dddd230b-4fe0-4998-b859-c168e6eb0519",
+              "name": "Post with provided guid could not be found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "posts",
+                    ":post_guid",
+                    "vote"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "post_guid",
+                      "description": "(Required) GUID of the post."
+                    },
+                    {
+                      "description": "Hostname of the diaspora* pod to talk to.",
+                      "type": "any",
+                      "value": "{{pod}}",
+                      "key": "pod"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"poll_answer\": \"<integer>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 404,\n  \"message\": \"Requested entity wasn't found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "55fbf142-9a3e-42c7-ae54-fe7dae5bcf96",
+              "name": "There already was a vote recorded for this poll",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "posts",
+                    ":post_guid",
+                    "vote"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "post_guid",
+                      "description": "(Required) GUID of the post."
+                    },
+                    {
+                      "description": "Hostname of the diaspora* pod to talk to.",
+                      "type": "any",
+                      "value": "{{pod}}",
+                      "key": "pod"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"poll_answer\": \"<integer>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Gone",
+              "code": 410,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 404,\n  \"message\": \"Requested entity wasn't found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "55a9066f-587d-47f3-9b66-5804a21cc1d9",
+              "name": "The request was invalid, such as a wrong id given",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "posts",
+                    ":post_guid",
+                    "vote"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "post_guid",
+                      "description": "(Required) GUID of the post."
+                    },
+                    {
+                      "description": "Hostname of the diaspora* pod to talk to.",
+                      "type": "any",
+                      "value": "{{pod}}",
+                      "key": "pod"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"poll_answer\": \"<integer>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 404,\n  \"message\": \"Requested entity wasn't found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "Hostname of the diaspora* pod to talk to.",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "diaspora.social",
+      "key": "pod"
+    },
+    {
+      "type": "string",
+      "value": "https://{{pod}}/api/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "ffd6fda5-9f47-4451-b299-b5b80d9d1ba4",
+    "name": "diaspora* Aspects Post interactions API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The diaspora* API (version 1) as published in the official diaspora* API documentation. diaspora* is a decentralized social network, so there is no single API host: every pod exposes the same API under its own domain at /api/v1. Version discovery should be performed with nodeinfo before making requests. Authentication is OpenID Connect Core 1.0 with Dynamic Client Registration, because a manual application registration on a single pod is not sufficient. Only JSON is supported. NOTE: upstream marks this API as not yet stable pending the diaspora* 0.8.0.0 release.\n\nContact Support:\n Name: diaspora* project",
+      "type": "text/plain"
+    }
+  }
+}

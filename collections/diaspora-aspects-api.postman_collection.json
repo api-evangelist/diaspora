@@ -1,0 +1,1003 @@
+{
+  "item": [
+    {
+      "id": "aa028084-45da-4225-9257-71defe0eb525",
+      "name": "Aspects",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "c87e7a7f-0bbe-4599-a97e-012750dddc1c",
+          "name": "Get lists of aspects",
+          "request": {
+            "name": "Get lists of aspects",
+            "description": {
+              "content": "Required API scope: contacts:read",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "aspects"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "Hostname of the diaspora* pod to talk to.",
+                  "type": "any",
+                  "value": "{{pod}}",
+                  "key": "pod"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "90f7abcf-9ce2-4fd8-9606-de50f3d82b49",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "aspects"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "Hostname of the diaspora* pod to talk to.",
+                      "type": "any",
+                      "value": "{{pod}}",
+                      "key": "pod"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a6d28d48-64f9-4915-aeaa-80c9f53d5398",
+              "name": "The API request requires authorization",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "aspects"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "Hostname of the diaspora* pod to talk to.",
+                      "type": "any",
+                      "value": "{{pod}}",
+                      "key": "pod"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 404,\n  \"message\": \"Requested entity wasn't found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "557fb03e-e416-4980-96c3-b43575e5ace2",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "aspects"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "Hostname of the diaspora* pod to talk to.",
+                      "type": "any",
+                      "value": "{{pod}}",
+                      "key": "pod"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 404,\n  \"message\": \"Requested entity wasn't found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "f4dfb3c3-1b62-4c5d-8cbf-d522df2593d5",
+          "name": "Create new aspect",
+          "request": {
+            "name": "Create new aspect",
+            "description": {
+              "content": "Required API scope: contacts:modify",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "aspects"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "Hostname of the diaspora* pod to talk to.",
+                  "type": "any",
+                  "value": "{{pod}}",
+                  "key": "pod"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST"
+          },
+          "response": [
+            {
+              "id": "88c238ce-4efb-402d-91e1-f6f2aba48120",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "aspects"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "Hostname of the diaspora* pod to talk to.",
+                      "type": "any",
+                      "value": "{{pod}}",
+                      "key": "pod"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e9d0964c-76c2-4a0a-8601-1baa46dde821",
+              "name": "The API request requires authorization",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "aspects"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "Hostname of the diaspora* pod to talk to.",
+                      "type": "any",
+                      "value": "{{pod}}",
+                      "key": "pod"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 404,\n  \"message\": \"Requested entity wasn't found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f25599ac-f1c9-4bf5-8bb8-0ce6571bc24f",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "aspects"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "Hostname of the diaspora* pod to talk to.",
+                      "type": "any",
+                      "value": "{{pod}}",
+                      "key": "pod"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 404,\n  \"message\": \"Requested entity wasn't found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "eb0f9ce3-6fed-4423-a8ee-fb52dfe02b72",
+          "name": "Get information about an aspect",
+          "request": {
+            "name": "Get information about an aspect",
+            "description": {
+              "content": "Required API scope: contacts:read",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "aspects",
+                ":aspect_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "aspect_id",
+                  "description": "(Required) ID of the aspect."
+                },
+                {
+                  "description": "Hostname of the diaspora* pod to talk to.",
+                  "type": "any",
+                  "value": "{{pod}}",
+                  "key": "pod"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET"
+          },
+          "response": [
+            {
+              "id": "15483cfc-4c51-4dfc-8b13-8dae96c9ecf6",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "aspects",
+                    ":aspect_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "aspect_id",
+                      "description": "(Required) ID of the aspect."
+                    },
+                    {
+                      "description": "Hostname of the diaspora* pod to talk to.",
+                      "type": "any",
+                      "value": "{{pod}}",
+                      "key": "pod"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "eb59c33e-6b1d-4fea-b6be-3bab8618df04",
+              "name": "The API request requires authorization",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "aspects",
+                    ":aspect_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "aspect_id",
+                      "description": "(Required) ID of the aspect."
+                    },
+                    {
+                      "description": "Hostname of the diaspora* pod to talk to.",
+                      "type": "any",
+                      "value": "{{pod}}",
+                      "key": "pod"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 404,\n  \"message\": \"Requested entity wasn't found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8214879d-551b-422e-a7f1-fb65aab056d9",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "aspects",
+                    ":aspect_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "aspect_id",
+                      "description": "(Required) ID of the aspect."
+                    },
+                    {
+                      "description": "Hostname of the diaspora* pod to talk to.",
+                      "type": "any",
+                      "value": "{{pod}}",
+                      "key": "pod"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 404,\n  \"message\": \"Requested entity wasn't found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4495055c-8ca2-4e0f-b2fd-b0f382fa5509",
+          "name": "Edit an aspect",
+          "request": {
+            "name": "Edit an aspect",
+            "description": {
+              "content": "Required API scope: contacts:modify",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "aspects",
+                ":aspect_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "aspect_id",
+                  "description": "(Required) ID of the aspect."
+                },
+                {
+                  "description": "Hostname of the diaspora* pod to talk to.",
+                  "type": "any",
+                  "value": "{{pod}}",
+                  "key": "pod"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"order\": \"<integer>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "8e0737d9-be38-464f-8d08-3823e949d683",
+              "name": "Successful response",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "aspects",
+                    ":aspect_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "aspect_id",
+                      "description": "(Required) ID of the aspect."
+                    },
+                    {
+                      "description": "Hostname of the diaspora* pod to talk to.",
+                      "type": "any",
+                      "value": "{{pod}}",
+                      "key": "pod"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"order\": \"<integer>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f171a0cb-e34b-4566-b4bc-13758979c2a0",
+              "name": "The API request requires authorization",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "aspects",
+                    ":aspect_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "aspect_id",
+                      "description": "(Required) ID of the aspect."
+                    },
+                    {
+                      "description": "Hostname of the diaspora* pod to talk to.",
+                      "type": "any",
+                      "value": "{{pod}}",
+                      "key": "pod"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"order\": \"<integer>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 404,\n  \"message\": \"Requested entity wasn't found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e8740b58-c197-43e4-bcab-d4c783505289",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "aspects",
+                    ":aspect_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "aspect_id",
+                      "description": "(Required) ID of the aspect."
+                    },
+                    {
+                      "description": "Hostname of the diaspora* pod to talk to.",
+                      "type": "any",
+                      "value": "{{pod}}",
+                      "key": "pod"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"order\": \"<integer>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 404,\n  \"message\": \"Requested entity wasn't found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4e93afc6-948a-496a-a66e-e344f97ecfd6",
+          "name": "Delete an aspect",
+          "request": {
+            "name": "Delete an aspect",
+            "description": {
+              "content": "Required API scope: contacts:modify",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "aspects",
+                ":aspect_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "aspect_id",
+                  "description": "(Required) ID of the aspect."
+                },
+                {
+                  "description": "Hostname of the diaspora* pod to talk to.",
+                  "type": "any",
+                  "value": "{{pod}}",
+                  "key": "pod"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE"
+          },
+          "response": [
+            {
+              "id": "42262377-1056-4ffd-a1b6-41dbab7b118f",
+              "name": "No Content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "aspects",
+                    ":aspect_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "aspect_id",
+                      "description": "(Required) ID of the aspect."
+                    },
+                    {
+                      "description": "Hostname of the diaspora* pod to talk to.",
+                      "type": "any",
+                      "value": "{{pod}}",
+                      "key": "pod"
+                    }
+                  ]
+                },
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "acb6737a-1c12-489c-8391-55056eb49adf",
+              "name": "The API request requires authorization",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "aspects",
+                    ":aspect_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "aspect_id",
+                      "description": "(Required) ID of the aspect."
+                    },
+                    {
+                      "description": "Hostname of the diaspora* pod to talk to.",
+                      "type": "any",
+                      "value": "{{pod}}",
+                      "key": "pod"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 404,\n  \"message\": \"Requested entity wasn't found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "899dfb1f-041f-4142-83fe-b3a8ef5d2dc2",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "aspects",
+                    ":aspect_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "aspect_id",
+                      "description": "(Required) ID of the aspect."
+                    },
+                    {
+                      "description": "Hostname of the diaspora* pod to talk to.",
+                      "type": "any",
+                      "value": "{{pod}}",
+                      "key": "pod"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": 404,\n  \"message\": \"Requested entity wasn't found\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "Hostname of the diaspora* pod to talk to.",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "diaspora.social",
+      "key": "pod"
+    },
+    {
+      "type": "string",
+      "value": "https://{{pod}}/api/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "a6ca031c-756f-4a50-9f98-2be8a7caacfe",
+    "name": "diaspora* Aspects API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The diaspora* API (version 1) as published in the official diaspora* API documentation. diaspora* is a decentralized social network, so there is no single API host: every pod exposes the same API under its own domain at /api/v1. Version discovery should be performed with nodeinfo before making requests. Authentication is OpenID Connect Core 1.0 with Dynamic Client Registration, because a manual application registration on a single pod is not sufficient. Only JSON is supported. NOTE: upstream marks this API as not yet stable pending the diaspora* 0.8.0.0 release.\n\nContact Support:\n Name: diaspora* project",
+      "type": "text/plain"
+    }
+  }
+}

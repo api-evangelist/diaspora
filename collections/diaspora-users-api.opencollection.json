@@ -1,0 +1,139 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "diaspora* Aspects Users API",
+    "version": "1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Users",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get information about the authenticated user",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{pod}/api/v1/user"
+          },
+          "docs": "Required API scope: profile"
+        },
+        {
+          "info": {
+            "name": "Update the currently authenticated users profile",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{pod}/api/v1/user",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Required API scope: profile:modify"
+        },
+        {
+          "info": {
+            "name": "Get information about a single user",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{pod}/api/v1/users/:person_guid",
+            "params": [
+              {
+                "name": "person_guid",
+                "value": "",
+                "type": "path",
+                "description": "GUID of the person."
+              }
+            ]
+          },
+          "docs": "Required API scope: public:read"
+        },
+        {
+          "info": {
+            "name": "Block a user",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{pod}/api/v1/users/:person_guid/block",
+            "params": [
+              {
+                "name": "person_guid",
+                "value": "",
+                "type": "path",
+                "description": "GUID of the person."
+              }
+            ]
+          },
+          "docs": "Required API scope: contacts:modify."
+        },
+        {
+          "info": {
+            "name": "Unblock a user",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{pod}/api/v1/users/:person_guid/block",
+            "params": [
+              {
+                "name": "person_guid",
+                "value": "",
+                "type": "path",
+                "description": "GUID of the person."
+              }
+            ]
+          },
+          "docs": "Required API scope: contacts:modify."
+        },
+        {
+          "info": {
+            "name": "Get photos by a single user",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{pod}/api/v1/users/:person_guid/photos",
+            "params": [
+              {
+                "name": "person_guid",
+                "value": "",
+                "type": "path",
+                "description": "GUID of the person."
+              }
+            ]
+          },
+          "docs": "Required API scope: public:read"
+        },
+        {
+          "info": {
+            "name": "Get posts by a single user",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{pod}/api/v1/users/:person_guid/posts",
+            "params": [
+              {
+                "name": "person_guid",
+                "value": "",
+                "type": "path",
+                "description": "GUID of the person."
+              }
+            ]
+          },
+          "docs": "Required API scope: public:read"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

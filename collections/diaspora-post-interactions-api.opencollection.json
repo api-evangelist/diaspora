@@ -1,0 +1,125 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "diaspora* Aspects Post interactions API",
+    "version": "1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Post interactions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Hide or unhide a post",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{pod}/api/v1/posts/:post_guid/hide",
+            "params": [
+              {
+                "name": "post_guid",
+                "value": "",
+                "type": "path",
+                "description": "GUID of the post."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Required API scope: interactions. Read access to the post must be present too (public:read for public posts and private:read for private posts)."
+        },
+        {
+          "info": {
+            "name": "Mute (unsubscribe from a) a post",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{pod}/api/v1/posts/:post_guid/mute",
+            "params": [
+              {
+                "name": "post_guid",
+                "value": "",
+                "type": "path",
+                "description": "GUID of the post."
+              }
+            ]
+          },
+          "docs": "Required API scope: interactions. Read access to the post must be present too (public:read for public posts and private:read for private posts)."
+        },
+        {
+          "info": {
+            "name": "Report a post",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{pod}/api/v1/posts/:post_guid/report",
+            "params": [
+              {
+                "name": "post_guid",
+                "value": "",
+                "type": "path",
+                "description": "GUID of the post."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Required API scope: interactions. Read access to the post must be present too (public:read for public posts and private:read for private posts)."
+        },
+        {
+          "info": {
+            "name": "Subscribe to a post",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{pod}/api/v1/posts/:post_guid/subscribe",
+            "params": [
+              {
+                "name": "post_guid",
+                "value": "",
+                "type": "path",
+                "description": "GUID of the post."
+              }
+            ]
+          },
+          "docs": "Required API scope: interactions. Read access to the post must be present too (public:read for public posts and private:read for private posts)."
+        },
+        {
+          "info": {
+            "name": "Vote on poll",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{pod}/api/v1/posts/:post_guid/vote",
+            "params": [
+              {
+                "name": "post_guid",
+                "value": "",
+                "type": "path",
+                "description": "GUID of the post."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Vote on poll"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

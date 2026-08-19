@@ -1,0 +1,101 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "diaspora* Aspects API",
+    "version": "1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Aspects",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get lists of aspects",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{pod}/api/v1/aspects"
+          },
+          "docs": "Required API scope: contacts:read"
+        },
+        {
+          "info": {
+            "name": "Create new aspect",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{pod}/api/v1/aspects"
+          },
+          "docs": "Required API scope: contacts:modify"
+        },
+        {
+          "info": {
+            "name": "Get information about an aspect",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{pod}/api/v1/aspects/:aspect_id",
+            "params": [
+              {
+                "name": "aspect_id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the aspect."
+              }
+            ]
+          },
+          "docs": "Required API scope: contacts:read"
+        },
+        {
+          "info": {
+            "name": "Edit an aspect",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{pod}/api/v1/aspects/:aspect_id",
+            "params": [
+              {
+                "name": "aspect_id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the aspect."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Required API scope: contacts:modify"
+        },
+        {
+          "info": {
+            "name": "Delete an aspect",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{pod}/api/v1/aspects/:aspect_id",
+            "params": [
+              {
+                "name": "aspect_id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the aspect."
+              }
+            ]
+          },
+          "docs": "Required API scope: contacts:modify"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

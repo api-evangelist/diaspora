@@ -1,0 +1,67 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "diaspora* Aspects Notifications API",
+    "version": "1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Notifications",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get list of all notifications",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{pod}/api/v1/notifications"
+          },
+          "docs": "Required API scope: notifications"
+        },
+        {
+          "info": {
+            "name": "Get information about a single notification",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{pod}/api/v1/notifications/:notification_id",
+            "params": [
+              {
+                "name": "notification_id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the notification."
+              }
+            ]
+          },
+          "docs": "Required API scope: notifications"
+        },
+        {
+          "info": {
+            "name": "Mark a notification as unread",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{pod}/api/v1/notifications/:notification_id",
+            "params": [
+              {
+                "name": "notification_id",
+                "value": "",
+                "type": "path",
+                "description": "ID of the notification."
+              }
+            ]
+          },
+          "docs": "Required API scope: notifications"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

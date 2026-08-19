@@ -1,0 +1,56 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "diaspora* Aspects Reshares API",
+    "version": "1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Reshares",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get reshares for a single post",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{pod}/api/v1/posts/:post_guid/reshares",
+            "params": [
+              {
+                "name": "post_guid",
+                "value": "",
+                "type": "path",
+                "description": "GUID of the post."
+              }
+            ]
+          },
+          "docs": "Required API scope: public:read"
+        },
+        {
+          "info": {
+            "name": "Reshare a post",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{pod}/api/v1/posts/:post_guid/reshares",
+            "params": [
+              {
+                "name": "post_guid",
+                "value": "",
+                "type": "path",
+                "description": "GUID of the post."
+              }
+            ]
+          },
+          "docs": "Required API scope: public:modify"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

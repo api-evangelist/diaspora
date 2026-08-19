@@ -1,0 +1,63 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "diaspora* Aspects Tag followings API",
+    "version": "1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Tag followings",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get list of followed tags",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{pod}/api/v1/tag_followings"
+          },
+          "docs": "Required API scope: tags:read"
+        },
+        {
+          "info": {
+            "name": "Follow a tag",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{pod}/api/v1/tag_followings",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Required API scope: tags:modify"
+        },
+        {
+          "info": {
+            "name": "Unfollow a tag",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{pod}/api/v1/tag_followings/:tag_name",
+            "params": [
+              {
+                "name": "tag_name",
+                "value": "",
+                "type": "path",
+                "description": "Name of the tag."
+              }
+            ]
+          },
+          "docs": "Required API scope: tags:modify"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
