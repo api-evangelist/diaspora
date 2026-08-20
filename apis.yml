@@ -40,6 +40,17 @@ tags:
 - Social Networking
 - Decentralized
 - Federated
+- Open-Source
+- Privacy
+- Fediverse
+- Messaging
+- OpenID Connect
+tags_raw:
+- Company
+- Social
+- Social Networking
+- Decentralized
+- Federated
 - Open Source
 - Privacy
 - Fediverse
@@ -234,6 +245,8 @@ apis:
   humanURL: https://diaspora.github.io/api-documentation/
   baseURL: https://diaspora.social/api/v1
   tags:
+  - Notification
+  tags_raw:
   - Notifications
   properties:
   - type: OpenAPI
@@ -410,6 +423,8 @@ apis:
   humanURL: https://diaspora.github.io/api-documentation/
   baseURL: https://diaspora.social/api/v1
   tags:
+  - User
+  tags_raw:
   - Users
   properties:
   - type: OpenAPI
