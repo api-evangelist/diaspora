@@ -12,6 +12,20 @@ description: >-
   authenticated with OpenID Connect Core 1.0 including Dynamic Client Registration — a necessity in
   a decentralized network where an application cannot pre-register with every pod it might talk to.
 url: https://raw.githubusercontent.com/api-evangelist/diaspora/refs/heads/main/apis.yml
+deliveryModel:
+  model: saas
+  license: CC-BY-SA-4.0
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - license
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: unknown
   onboarding: self-serve
