@@ -28,15 +28,17 @@ deliveryModel:
   method: derived
 accessModel:
   pricing: unknown
-  onboarding: self-serve
+  onboarding: unknown
   trial: false
   try_now: false
   public: false
-  label: Self-serve signup
-  confidence: medium
+  label: Unknown
+  confidence: low
   source:
   - authentication
-  generated: '2026-07-22'
+  - scopes
+  - security
+  generated: '2026-09-03'
   method: derived
 image: https://diasporafoundation.org/assets/logo-e280790b46ace035cde8657c606b7b8cf6d925c7313a48f3d53a6340f59d5dfd.png
 x-type: company
