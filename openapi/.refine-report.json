@@ -1,20 +1,7 @@
 {
   "provider": "diaspora",
   "sources": [
-    "diaspora-aspects-api-openapi.yml",
-    "diaspora-comments-api-openapi.yml",
-    "diaspora-contacts-api-openapi.yml",
-    "diaspora-conversations-api-openapi.yml",
-    "diaspora-likes-api-openapi.yml",
-    "diaspora-notifications-api-openapi.yml",
-    "diaspora-photos-api-openapi.yml",
-    "diaspora-post-interactions-api-openapi.yml",
-    "diaspora-posts-api-openapi.yml",
-    "diaspora-reshares-api-openapi.yml",
-    "diaspora-search-api-openapi.yml",
-    "diaspora-streams-api-openapi.yml",
-    "diaspora-tag-followings-api-openapi.yml",
-    "diaspora-users-api-openapi.yml"
+    "_original/diaspora-api-openapi.yml"
   ],
   "outputs": [
     "diaspora-aspects-api-openapi.yml",
@@ -35,6 +22,25 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "diaspora-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "diaspora-aspects-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "diaspora-comments-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "diaspora-contacts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "diaspora-conversations-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "diaspora-likes-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "diaspora-notifications-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "diaspora-photos-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "diaspora-post-interactions-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "diaspora-posts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "diaspora-reshares-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "diaspora-search-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "diaspora-streams-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "diaspora-tag-followings-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "diaspora-users-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
