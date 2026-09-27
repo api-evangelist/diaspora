@@ -53,10 +53,10 @@ modified: '2026-07-20'
 tags:
 - Company
 - Social
-- Social Networking
+- Social Network
 - Decentralized
 - Federated
-- Open-Source
+- Open Source
 - Privacy
 - Fediverse
 - Messaging
@@ -72,6 +72,7 @@ tags_raw:
 - Fediverse
 - Messaging
 - OpenID Connect
+- Open-Source
 common:
 - type: IssueTracker
   url: https://github.com/diaspora/api-documentation/issues
